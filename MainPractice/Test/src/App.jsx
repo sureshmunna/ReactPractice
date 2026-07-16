@@ -14,6 +14,8 @@ import WhenNotToUseEffect from'./Components/WhenNotToUseEffect'
 import WhenToNotUseEffectjsx from './Components/WhenToNotUseEffectjsx'
 import RaceCondition from './Components/RaceConditions'
 import RaceConditionjsx from './Components/RaceConditionjsx'
+import ReferenceEquality from './Components/ReferenceEquality'
+import ReferenceEqualityjsx from './Components/ReferenceEqualityjsx'
 function App() {
   const [count, setCount] = useState(0)
   const [show,setShow] = useState(true)
@@ -32,8 +34,9 @@ function App() {
        {/* <WhenNotToUseEffect/> */}
        {/* <WhenToNotUseEffectjsx/> */}
        {/* <RaceCondition/> */}
-       <RaceConditionjsx/>
-      
+       {/* <RaceConditionjsx/> */}
+       {/* <ReferenceEquality/>1 */}
+       <ReferenceEqualityjsx/>
     </>
   )
 }
