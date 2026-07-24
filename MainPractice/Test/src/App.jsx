@@ -16,10 +16,18 @@ import RaceCondition from './Components/RaceConditions'
 import RaceConditionjsx from './Components/RaceConditionjsx'
 import ReferenceEquality from './Components/ReferenceEquality'
 import ReferenceEqualityjsx from './Components/ReferenceEqualityjsx'
+import TaskList from './Components/TaskList'
+import TaskListjsx from './Components/TaskListjsx'
+import UseReducerDemo from './Components/UseReducerDemo'
+import UseReducerDemojsx from './Components/UseReducerDemojsx'
+import GlobalStateDemoWrapper from './Components/GlobalStateDemo'
+import GlobalStateDemoWrapperjsx from './Components/GlobalStateDemojsx'
+import SplitContextDemoWrapper from './Components/SplitContextDemo'
 function App() {
   const [count, setCount] = useState(0)
   const [show,setShow] = useState(true)
 
+  
   return (
     <>
     {/* <button onClick={()=>setShow((s)=> !s)}>
@@ -36,7 +44,18 @@ function App() {
        {/* <RaceCondition/> */}
        {/* <RaceConditionjsx/> */}
        {/* <ReferenceEquality/>1 */}
-       <ReferenceEqualityjsx/>
+       {/* <ReferenceEqualityjsx/> */}
+       {/* <TaskList/> */}
+       {/* <TaskListjsx/> */}
+       {/* <UseReducerDemojsx/> */}
+       {/* <UseReducerDemo/>
+       <hr/>
+       <GlobalStateDemoWrapper/> */}
+       {/* <UseReducerDemojsx/> */}
+       {/* <hr></hr>
+       <GlobalStateDemoWrapperjsx/> */}
+       <SplitContextDemoWrapper/>
+       
     </>
   )
 }
