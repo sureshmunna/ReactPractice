@@ -23,6 +23,7 @@ import UseReducerDemojsx from './Components/UseReducerDemojsx'
 import GlobalStateDemoWrapper from './Components/GlobalStateDemo'
 import GlobalStateDemoWrapperjsx from './Components/GlobalStateDemojsx'
 import SplitContextDemoWrapper from './Components/SplitContextDemo'
+import CustomHooksDemo from './Components/CustomHooksDemo'
 function App() {
   const [count, setCount] = useState(0)
   const [show,setShow] = useState(true)
@@ -54,7 +55,8 @@ function App() {
        {/* <UseReducerDemojsx/> */}
        {/* <hr></hr>
        <GlobalStateDemoWrapperjsx/> */}
-       <SplitContextDemoWrapper/>
+       {/* <SplitContextDemoWrapper/> */}
+       <CustomHooksDemo/>
        
     </>
   )

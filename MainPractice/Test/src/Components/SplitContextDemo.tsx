@@ -61,9 +61,9 @@ export const SplitAppProvider = ({children}:{children:ReactNode})=>{
 
     return(
         <AppStateContext.Provider value={state}>
-            <AppDispatchContext value={dispatch}>
+            <AppDispatchContext.Provider value={dispatch}>
                 {children}
-            </AppDispatchContext>
+            </AppDispatchContext.Provider>
         </AppStateContext.Provider>
     )
 }
