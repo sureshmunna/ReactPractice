@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>React Deep Dive — Full Notes</title>
+<style>
+  :root {
+    --bg: #0f1117; --card-bg: #161925; --text: #e6e8ef; --muted: #9aa1b5;
+    --teal: #4fc3a1; --purple: #a78bfa; --amber: #fbbf24; --coral: #f87171;
+    --blue: #60a5fa; --border: #262b3d;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height: 1.65; margin: 0; padding: 0 0 80px; }
+  header { background: linear-gradient(135deg, #1a1f2e, #12151f); padding: 48px 24px 32px; text-align: center; border-bottom: 3px solid var(--teal); }
+  header h1 { margin: 0 0 8px; font-size: 32px; color: #fff; }
+  header p { color: var(--muted); margin: 0; font-size: 15px; }
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 20px; }
+  .toc { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 40px; }
+  .toc h2 { margin-top: 0; color: var(--teal); font-size: 18px; }
+  .toc ol { margin: 0; padding-left: 20px; columns: 2; }
+  .toc li { margin-bottom: 8px; }
+  .toc a { color: var(--blue); text-decoration: none; }
+  .day { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 28px 28px 8px; margin-bottom: 32px; scroll-margin-top: 20px; }
+  .day-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px; }
+  .day h2 { margin: 0 0 4px; font-size: 22px; color: #fff; }
+  .day .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+  h3.section-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--teal); border-bottom: 1px solid var(--border); padding-bottom: 6px; margin: 30px 0 14px; }
+  h4.sub-label { font-size: 14px; color: var(--amber); margin: 18px 0 8px; }
+  .concept-box { background: #10131c; border-left: 4px solid var(--blue); padding: 14px 18px; border-radius: 6px; margin-bottom: 16px; }
+  .warn-box { background: #1a1310; border-left: 4px solid var(--coral); padding: 14px 18px; border-radius: 6px; margin-bottom: 16px; }
+  .fix-box { background: #101a17; border-left: 4px solid var(--teal); padding: 14px 18px; border-radius: 6px; margin-bottom: 16px; }
+  .timeline-box { background: #0d1420; border: 1px dashed var(--blue); padding: 14px 18px; border-radius: 6px; margin-bottom: 16px; font-family: monospace; font-size: 13px; color: #b8c4e0; white-space: pre-wrap; }
+  pre { background: #0a0c12; border: 1px solid var(--border); border-radius: 8px; padding: 16px; overflow-x: auto; font-size: 13.5px; margin: 0 0 16px; }
+  code { font-family: 'SFMono-Regular', Consolas, Menlo, monospace; }
+  .kw { color: var(--purple); } .fn { color: var(--blue); } .str { color: var(--amber); } .cmt { color: #6b7280; font-style: italic; }
+  .hl-good { color: var(--teal); font-weight: 700; } .hl-bad { color: var(--coral); font-weight: 700; }
+  .interview-box { background: linear-gradient(135deg, #1a1a2e, #16182a); border: 1px solid var(--purple); border-radius: 8px; padding: 16px 18px; margin: 16px 0 20px; }
+  .interview-box .tag { color: var(--purple); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .interview-box p { margin: 8px 0 0; font-style: italic; color: #d8daea; }
+  table.compare { width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 13.5px; }
+  table.compare th, table.compare td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+  table.compare th { background: #1c2032; color: var(--teal); }
+  table.compare td { color: var(--text); }
+  ul.point-list { padding-left: 20px; } ul.point-list li { margin-bottom: 7px; }
+  .footer-note { text-align: center; color: var(--muted); font-size: 13px; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚛️ React Deep Dive — Complete Notes</h1>
+  <p>Full 10-Day Curriculum — Every Concept, Every Example</p>
+</header>
+
+<div class="container">
+
+  <div class="toc">
+    <h2>📑 Contents</h2>
+    <ol>
+      <li><a href="#day1">Day 1 — useState Deep Dive</a></li>
+      <li><a href="#day2">Day 2 — useEffect Deep Dive</a></li>
+      <li><a href="#day3">Day 3 — useMemo, useCallback, memo</a></li>
+      <li><a href="#day4">Day 4 — useReducer</a></li>
+      <li><a href="#day5">Day 5 — Context Performance Splitting</a></li>
+      <li><a href="#day6">Day 6 — Custom Hooks</a></li>
+      <li><a href="#day7">Day 7 — Zustand</a></li>
+      <li><a href="#day8">Day 8 — React Query</a></li>
+      <li><a href="#day9">Day 9 — Concurrent React</a></li>
+      <li><a href="#day10">Day 10 — Interview Q&A (Full 20)</a></li>
+    </ol>
+  </div>
+
+  <!-- ================= DAY 1 ================= -->
+  <div class="day" id="day1">
+    <span class="day-badge" style="background:#14352e;color:#4fc3a1;">DAY 1</span>
+    <h2>useState — Stale Closures, Batching, Lazy Init</h2>
+    <div class="subtitle">The most-asked hook; small mistakes here are the classic interview trap</div>
+
+    <h3 class="section-label">1. What is a Closure?</h3>
+    <div class="concept-box">
+      A closure is when a function "remembers" variables from where it was created, even after that outer scope has finished running.
+    </div>
+    <pre><code><span class="kw">function</span> makeCounter() {
+  <span class="kw">let</span> count = <span class="str">0</span>
+  <span class="kw">return function</span>() {
+    console.log(count) <span class="cmt">// remembers count via closure</span>
+  }
+}</code></pre>
+
+    <h4 class="sub-label">Stale Closure — when the "memory" is outdated</h4>
+    <div class="warn-box">A <strong>stale</strong> closure is when the remembered value is <em>old</em>, not the current one — the function captured a variable's value at creation time and never sees updates because the effect never re-runs.</div>
+    <pre><code><span class="cmt">// ❌ BUGGY — count is frozen at 0 forever</span>
+<span class="kw">useEffect</span>(() => {
+  <span class="kw">const</span> timer = setInterval(() => {
+    console.log(count)        <span class="cmt">// always prints 0 — stale!</span>
+    setCount(count + <span class="str">1</span>)   <span class="cmt">// always sets to 0+1=1 — bug!</span>
+  }, <span class="str">1000</span>)
+  <span class="kw">return</span> () => clearInterval(timer)
+}, [])</code></pre>
+    <div class="timeline-box">Mount → count=0 → effect runs → timer "photographs" count=0
+1s later → timer fires → sees OLD photo (0) → sets count to 1
+2s later → timer fires → sees SAME OLD photo (0) → sets count to 1 AGAIN
+→ stuck at 1 forever</div>
+    <pre><code><span class="cmt">// ✅ FIXED — functional update asks React directly for latest value</span>
+<span class="kw">useEffect</span>(() => {
+  <span class="kw">const</span> timer = setInterval(() => {
+    setCount(c => c + <span class="str">1</span>) <span class="cmt">// c is always fresh from React</span>
+  }, <span class="str">1000</span>)
+  <span class="kw">return</span> () => clearInterval(timer)
+}, [])</code></pre>
+
+    <h4 class="sub-label">Good closures vs bad (stale) closures</h4>
+    <table class="compare">
+      <tr><th>Situation</th><th>Closure type</th><th>Good or Bad</th></tr>
+      <tr><td><code>setCount(count+1)</code> in a timer</td><td>Stale</td><td class="hl-bad">Bad — need latest value</td></tr>
+      <tr><td><code>controller.abort()</code> in cleanup</td><td>Intentional</td><td class="hl-good">Good — need old value to cancel right request</td></tr>
+      <tr><td>Button in a list closing over <code>user.id</code></td><td>Intentional</td><td class="hl-good">Good — each item needs its own value</td></tr>
+      <tr><td>Debounce remembering typed text</td><td>Intentional</td><td class="hl-good">Good — remembers what triggered the delayed action</td></tr>
+    </table>
+
+    <h3 class="section-label">2. React 18 Batching</h3>
+    <div class="fix-box">Multiple <code>setState</code> calls — even inside <code>async</code> functions — are merged into <strong>ONE</strong> re-render in React 18 (before React 18, async code did NOT batch).</div>
+    <pre><code><span class="kw">const</span> handleClick = () => {
+  setCount(c => c + <span class="str">1</span>)
+  setName(<span class="str">"Suresh"</span>)
+  <span class="cmt">// React 18 — only ONE render despite two updates</span>
+}
+
+<span class="kw">const</span> handleAsync = <span class="kw">async</span> () => {
+  <span class="kw">await</span> new Promise(r => setTimeout(r, <span class="str">100</span>))
+  setCount(c => c + <span class="str">1</span>)
+  setName(<span class="str">"Suresh Babu"</span>)
+  <span class="cmt">// React 18 — STILL only one render, even after an await</span>
+}</code></pre>
+
+    <h3 class="section-label">3. Lazy Initialisation</h3>
+    <pre><code><span class="kw">const</span> getInitialValue = () => {
+  console.log(<span class="str">"expensive calculation runs..."</span>)
+  <span class="kw">return</span> <span class="str">100</span>
+}
+
+<span class="cmt">// ❌ Runs getInitialValue() on EVERY render — wasted work</span>
+<span class="kw">const</span> [value, setValue] = useState(getInitialValue())
+
+<span class="cmt">// ✅ Pass a FUNCTION — React calls it ONLY ONCE, on mount</span>
+<span class="kw">const</span> [value, setValue] = useState(() => getInitialValue())</code></pre>
+    <div class="concept-box">Analogy: without lazy init you "cook the food then hand it to React" (already computed every render). With lazy init you "hand React the recipe" — React cooks it once, when it actually needs to.</div>
+
+    <h3 class="section-label">4. Common onClick Bug</h3>
+    <div class="warn-box">
+      <code>onClick={fn()}</code> <strong>calls the function immediately during render</strong>, not on click — this causes "Too many re-renders" infinite loop errors.
+    </div>
+    <pre><code><span class="cmt">// ❌ Calls immediately — infinite loop</span>
+&lt;button onClick={setValue(v => v+1)}&gt;
+
+<span class="cmt">// ✅ Passes a reference — only runs when clicked</span>
+&lt;button onClick={() => setValue(v => v+1)}&gt;</code></pre>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"A stale closure happens when a function inside useEffect captures a variable's value at creation time and never sees updates because the effect doesn't re-run. The fix is functional updates like <code>setCount(c => c + 1)</code>, so React hands back the latest value directly instead of reading from a frozen closure. React 18 also batches all state updates — even inside async functions — into a single re-render."</p>
+    </div>
+  </div>
+
+  <!-- ================= DAY 2 ================= -->
+  <div class="day" id="day2">
+    <span class="day-badge" style="background:#2e2414;color:#fbbf24;">DAY 2</span>
+    <h2>useEffect — Cleanup, Race Conditions, When NOT to Use It</h2>
+    <div class="subtitle">The most misunderstood hook in React</div>
+
+    <h3 class="section-label">1. Three situations where you should NOT use useEffect</h3>
+    <h4 class="sub-label">Situation 1 — Deriving state</h4>
+    <pre><code><span class="cmt">// ❌ Wrong — unnecessary useEffect</span>
+<span class="kw">const</span> [fullName, setFullName] = useState(<span class="str">""</span>)
+<span class="kw">useEffect</span>(() => {
+  setFullName(firstName + <span class="str">" "</span> + lastName)
+}, [firstName, lastName])
+
+<span class="cmt">// ✅ Correct — just calculate it directly, no effect needed</span>
+<span class="kw">const</span> fullName = firstName + <span class="str">" "</span> + lastName</code></pre>
+
+    <h4 class="sub-label">Situation 2 — Filtering/transforming data</h4>
+    <pre><code><span class="cmt">// ✅ Filter directly during render, no useEffect</span>
+<span class="kw">const</span> activeUsers = users.filter(u => u.active === <span class="kw">true</span>)</code></pre>
+
+    <h4 class="sub-label">Situation 3 — Responding to user events</h4>
+    <pre><code><span class="cmt">// ✅ Handle directly in the event handler</span>
+<span class="kw">const</span> handleSubmit = () => {
+  console.log(<span class="str">"form submitted!"</span>) <span class="cmt">// do it here, not via an effect watching state</span>
+}</code></pre>
+
+    <h3 class="section-label">2. Race Conditions — AbortController</h3>
+    <div class="warn-box">Two fetches firing (e.g. rapid clicks) can resolve <em>out of order</em> — an older, slower request can overwrite a newer, faster result with stale data.</div>
+    <pre><code><span class="kw">useEffect</span>(() => {
+  <span class="kw">const</span> controller = <span class="kw">new</span> AbortController()
+  setLoading(<span class="kw">true</span>)
+
+  fetch(<span class="str">`/api/users/${userId}`</span>, { signal: controller.signal })
+    .then(res => res.json())
+    .then(data => { setUser(data); setLoading(<span class="kw">false</span>) })
+    .catch(err => {
+      <span class="kw">if</span> (err.name === <span class="str">"AbortError"</span>) <span class="kw">return</span> <span class="cmt">// cancelled — normal, ignore</span>
+      console.error(err)
+    })
+
+  <span class="kw">return</span> () => controller.abort() <span class="cmt">// cancel PREVIOUS fetch when userId changes</span>
+}, [userId])</code></pre>
+    <div class="timeline-box">Click User 1 → fetch 1 starts
+Click User 2 (fast) → cleanup runs → fetch 1 CANCELLED
+                     → fetch 2 starts
+fetch 2 finishes → shows User 2 ✅ always correct, no race condition</div>
+
+    <h3 class="section-label">3. The Cleanup Function — proving it with closures</h3>
+    <div class="concept-box">The cleanup closure <strong>intentionally</strong> remembers the OLD dependency value (e.g. old <code>userId</code>) so it can cancel exactly the right request — this is a GOOD use of closures, unlike Day 1's stale-closure bug.</div>
+    <pre><code><span class="kw">return</span> () => {
+  console.log(<span class="str">"cleanup — cancelling fetch for userId:"</span>, userId) <span class="cmt">// OLD userId, on purpose</span>
+  controller.abort()
+}</code></pre>
+
+    <h3 class="section-label">4. Dependency Array Rules</h3>
+    <table class="compare">
+      <tr><th>Array</th><th>Runs when</th></tr>
+      <tr><td>No array</td><td>After EVERY render (rarely wanted)</td></tr>
+      <tr><td><code>[]</code></td><td>Once, on mount only</td></tr>
+      <tr><td><code>[value]</code></td><td>On mount + whenever <code>value</code> changes</td></tr>
+    </table>
+    <div class="warn-box">Forgetting <code>[]</code> on a fetch effect causes an infinite loop: render → effect runs → fetch → setState → re-render → effect runs again → forever.</div>
+
+    <h3 class="section-label">5. Timer ID (setInterval return value)</h3>
+    <div class="concept-box"><code>setInterval()</code> doesn't return the timer itself — it returns a numeric ID assigned by the browser, like a ticket number, used later to cancel it via <code>clearInterval(id)</code>.</div>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"useEffect is only for synchronising with external systems — APIs, timers, subscriptions — never for deriving state, filtering data, or responding to events. For fetches based on a changing value, I always use AbortController in the cleanup function to cancel the previous request, which prevents race conditions where an older response overwrites a newer one."</p>
+    </div>
+  </div>
+
+  <!-- ================= DAY 3 ================= -->
+  <div class="day" id="day3">
+    <span class="day-badge" style="background:#241a2e;color:#a78bfa;">DAY 3</span>
+    <h2>useMemo, useCallback, React.memo</h2>
+    <div class="subtitle">Reference equality — the root cause of unnecessary re-renders</div>
+
+    <h3 class="section-label">1. Reference Equality</h3>
+    <pre><code><span class="cmt">// Primitives — compared by VALUE</span>
+<span class="str">1</span> === <span class="str">1</span>          <span class="cmt">// ✅ true</span>
+<span class="str">"a"</span> === <span class="str">"a"</span>      <span class="cmt">// ✅ true</span>
+
+<span class="cmt">// Objects/Arrays/Functions — compared by REFERENCE (memory address)</span>
+{} === {}          <span class="hl-bad">// ❌ false</span>
+[] === []          <span class="hl-bad">// ❌ false</span>
+(() => {}) === (() => {})  <span class="hl-bad">// ❌ false</span></code></pre>
+    <div class="warn-box">A new object/function literal created inline in a component body is a <strong>brand-new reference every render</strong> — this breaks <code>memo()</code> on children even when the actual data hasn't changed.</div>
+
+    <h3 class="section-label">2. useMemo — cache a VALUE</h3>
+    <pre><code><span class="kw">const</span> Parent = () => {
+  <span class="kw">const</span> [count, setCount] = useState(<span class="str">0</span>)
+  <span class="kw">const</span> [name, setName] = useState(<span class="str">"Suresh"</span>)
+
+  <span class="cmt">// ✅ same object reference unless name changes</span>
+  <span class="kw">const</span> user = useMemo(() => ({ name }), [name])
+
+  <span class="kw">return</span> &lt;Child user={user} /&gt; <span class="cmt">// child skips render when only count changes</span>
+}</code></pre>
+    <h4 class="sub-label">When useMemo helps</h4>
+    <ul class="point-list">
+      <li>Genuinely expensive calculations</li>
+      <li>Stable object references passed to memoized children</li>
+      <li>Filtered/sorted derived lists</li>
+    </ul>
+    <h4 class="sub-label">When useMemo HURTS</h4>
+    <div class="warn-box">useMemo itself has a cost — storing the cached value and comparing dependencies every render. For cheap calculations (<code>count * 2</code>), plain calculation is <em>faster</em> than memoizing it.</div>
+
+    <h3 class="section-label">3. useCallback — cache a FUNCTION</h3>
+    <pre><code><span class="cmt">// ❌ New function reference every render — breaks child's memo()</span>
+<span class="kw">const</span> handleDelete = (task) => { setTasks(prev => prev.filter(t => t !== task)) }
+
+<span class="cmt">// ✅ Stable reference across renders</span>
+<span class="kw">const</span> handleDelete = useCallback((task) => {
+  setTasks(prev => prev.filter(t => t !== task))
+}, []) <span class="cmt">// setTasks is always stable, so [] is safe</span></code></pre>
+
+    <h3 class="section-label">4. memo() + useCallback — the full pattern</h3>
+    <pre><code><span class="kw">const</span> TaskItem = memo(({ task, onDelete }) => {
+  console.log(<span class="str">"TaskItem rendered:"</span>, task)
+  <span class="kw">return</span> (
+    &lt;div&gt;
+      {task} &lt;button onClick={() => onDelete(task)}&gt;Delete&lt;/button&gt;
+    &lt;/div&gt;
+  )
+})
+
+<span class="kw">const</span> TaskList = () => {
+  <span class="kw">const</span> [tasks, setTasks] = useState([<span class="str">"A"</span>, <span class="str">"B"</span>])
+  <span class="kw">const</span> [count, setCount] = useState(<span class="str">0</span>)
+
+  <span class="kw">const</span> handleDelete = useCallback((task) => {
+    setTasks(prev => prev.filter(t => t !== task))
+  }, [])
+
+  <span class="kw">return</span> (
+    &lt;&gt;
+      &lt;button onClick={() => setCount(c => c+<span class="str">1</span>)}&gt;Count: {count}&lt;/button&gt;
+      {tasks.map(t => &lt;TaskItem key={t} task={t} onDelete={handleDelete} /&gt;)}
+    &lt;/&gt;
+  )
+}</code></pre>
+    <div class="fix-box">Result: clicking Count does <strong>NOT</strong> re-render any TaskItem — handleDelete stays the same reference (useCallback), so memo() correctly skips re-rendering the children.</div>
+
+    <h3 class="section-label">5. How DOM removal actually works (with keys)</h3>
+    <div class="concept-box">
+      When you delete a task: <code>setTasks</code> updates state → React builds a new virtual DOM → React's diffing algorithm compares old vs new using the <code>key</code> prop → any old key missing from the new tree gets <strong>unmounted</strong> from the real DOM. Using array <em>index</em> as key can cause React to match the WRONG component after a deletion — always use a stable unique id/value as key.
+    </div>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"useMemo caches a computed value; useCallback caches a function reference. Both prevent components wrapped in memo from re-rendering due to receiving a 'new' object or function reference every render, even when the underlying data hasn't actually changed. Overusing either has its own performance cost, so I only apply them for genuinely expensive work or to stabilise props passed into memoized children."</p>
+    </div>
+  </div>
+
+  <!-- ================= DAY 4 ================= -->
+  <div class="day" id="day4">
+    <span class="day-badge" style="background:#142e28;color:#4fc3a1;">DAY 4</span>
+    <h2>useReducer</h2>
+    <div class="subtitle">Complex state, action-based updates, never mutate</div>
+
+    <h3 class="section-label">1. Basic Counter Reducer</h3>
+    <pre><code><span class="kw">const</span> countReducer = (state, action) => {
+  <span class="kw">switch</span> (action.type) {
+    <span class="kw">case</span> <span class="str">"increment"</span>: <span class="kw">return</span> state + <span class="str">1</span>   <span class="cmt">// ✅ new value</span>
+    <span class="kw">case</span> <span class="str">"decrement"</span>: <span class="kw">return</span> state - <span class="str">1</span>
+    <span class="kw">case</span> <span class="str">"reset"</span>: <span class="kw">return</span> <span class="str">0</span>
+    <span class="kw">case</span> <span class="str">"incrementBy"</span>: <span class="kw">return</span> state + action.payload
+    <span class="kw">default</span>: <span class="kw">return</span> state <span class="cmt">// always handle default!</span>
+  }
+}
+<span class="kw">const</span> [count, dispatch] = useReducer(countReducer, <span class="str">0</span>)
+dispatch({ type: <span class="str">"incrementBy"</span>, payload: <span class="str">5</span> })</code></pre>
+
+    <h3 class="section-label">2. The Mutation Bug — CRITICAL</h3>
+    <pre><code><span class="cmt">// ❌ WRONG — mutating then returning (dangerous pattern)</span>
+<span class="kw">case</span> <span class="str">"inc"</span>: <span class="kw">return</span> state += <span class="str">1</span>
+
+<span class="cmt">// ✅ CORRECT — return a new value, never mutate</span>
+<span class="kw">case</span> <span class="str">"inc"</span>: <span class="kw">return</span> state + <span class="str">1</span></code></pre>
+    <div class="warn-box">With objects, mutation is even more dangerous: <code>state.name = "X"; return state</code> keeps the <strong>same reference</strong> — React thinks nothing changed and skips the re-render entirely.</div>
+
+    <h3 class="section-label">3. Object State Reducer</h3>
+    <pre><code><span class="kw">const</span> userReducer = (state, action) => {
+  <span class="kw">switch</span> (action.type) {
+    <span class="kw">case</span> <span class="str">"updateName"</span>:
+      <span class="kw">return</span> { ...state, name: action.payload } <span class="cmt">// spread + override</span>
+    <span class="kw">case</span> <span class="str">"incrementAge"</span>:
+      <span class="kw">return</span> { ...state, age: state.age + <span class="str">1</span> }
+    <span class="kw">case</span> <span class="str">"reset"</span>:
+      <span class="kw">return</span> initialUserState
+    <span class="kw">default</span>: <span class="kw">return</span> state
+  }
+}</code></pre>
+
+    <h3 class="section-label">4. useReducer vs useState</h3>
+    <table class="compare">
+      <tr><th>Use useState when</th><th>Use useReducer when</th></tr>
+      <tr><td>Simple, independent values</td><td>Multiple related sub-values</td></tr>
+      <tr><td>Toggle, counter, single string</td><td>Complex transitions between states</td></tr>
+      <tr><td>Few update patterns</td><td>Many distinct action types</td></tr>
+    </table>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"React detects state changes using reference equality. If I mutate an object directly and return the same reference, React thinks nothing changed and skips the re-render — so reducers must always return a brand new object using spread syntax, never mutate the existing state directly."</p>
+    </div>
+  </div>
+
+  <!-- ================= DAY 5 ================= -->
+  <div class="day" id="day5">
+    <span class="day-badge" style="background:#2e1a24;color:#f87171;">DAY 5</span>
+    <h2>Context Performance Splitting</h2>
+    <div class="subtitle">Why one combined context causes unnecessary re-renders — and the fix</div>
+
+    <h3 class="section-label">1. The Problem</h3>
+    <div class="warn-box">When <code>state</code> and <code>dispatch</code> live in <strong>ONE</strong> context, every consumer re-renders whenever <em>state</em> changes — even a component that only reads <code>dispatch</code>, which React guarantees never changes.</div>
+    <pre><code><span class="cmt">// TaskInput only needs dispatch, but still re-renders on every task added!</span>
+<span class="kw">const</span> TaskInput = () => {
+  <span class="kw">const</span> { dispatch } = useAppContext() <span class="cmt">// combined context — wasteful</span>
+}</code></pre>
+
+    <h3 class="section-label">2. The Fix — Two Separate Contexts</h3>
+    <pre><code><span class="kw">const</span> AppStateContext = createContext(<span class="kw">null</span>)
+<span class="kw">const</span> AppDispatchContext = createContext(<span class="kw">null</span>)
+
+<span class="kw">export const</span> AppProvider = ({ children }) => {
+  <span class="kw">const</span> [state, dispatch] = useReducer(appReducer, initialState)
+  <span class="kw">return</span> (
+    &lt;AppStateContext.Provider value={state}&gt;
+      &lt;AppDispatchContext.Provider value={dispatch}&gt;
+        {children}
+      &lt;/AppDispatchContext.Provider&gt;
+    &lt;/AppStateContext.Provider&gt;
+  )
+}
+
+<span class="kw">export const</span> useAppState = () => useContext(AppStateContext)
+<span class="kw">export const</span> useAppDispatch = () => useContext(AppDispatchContext)</code></pre>
+
+    <h3 class="section-label">3. Applying It — dispatch-only components never re-render</h3>
+    <pre><code><span class="kw">const</span> TaskInput = memo(() => {
+  <span class="kw">const</span> dispatch = useAppDispatch() <span class="cmt">// ONLY subscribes to dispatch context</span>
+  <span class="cmt">// dispatch NEVER changes → TaskInput NEVER re-renders when tasks change ✅</span>
+})
+
+<span class="kw">const</span> TaskList = () => {
+  <span class="kw">const</span> state = useAppState() <span class="cmt">// only re-renders when STATE changes</span>
+}</code></pre>
+
+    <h3 class="section-label">4. Comparison — Old vs New</h3>
+    <table class="compare">
+      <tr><th>Scenario</th><th>One combined context</th><th>Split contexts</th></tr>
+      <tr><td>Add a task</td><td>TaskInput re-renders too (wasted)</td><td class="hl-good">TaskInput skips render</td></tr>
+      <tr><td>Toggle theme</td><td>Task list re-renders too (wasted)</td><td class="hl-good">Only theme consumers re-render</td></tr>
+    </table>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"Splitting state and dispatch into separate contexts means dispatch-only consumers never re-render, because dispatch is guaranteed stable by React across renders. Combined with memo on the components, this gives fine-grained control over re-renders without needing an external state library."</p>
+    </div>
+  </div>
+
+  <!-- ================= DAY 6 ================= -->
+  <div class="day" id="day6">
+    <span class="day-badge" style="background:#1a242e;color:#60a5fa;">DAY 6</span>
+    <h2>Custom Hooks — Built From Scratch</h2>
+    <div class="subtitle">useFetch, useDebounce, useLocalStorage</div>
+
+    <h3 class="section-label">1. useFetch</h3>
+    <pre><code><span class="kw">const</span> useFetch = &lt;T,&gt;(url: string) => {
+  <span class="kw">const</span> [data, setData] = useState&lt;T | <span class="kw">null</span>&gt;(<span class="kw">null</span>)
+  <span class="kw">const</span> [loading, setLoading] = useState(<span class="kw">true</span>)
+  <span class="kw">const</span> [error, setError] = useState&lt;string | <span class="kw">null</span>&gt;(<span class="kw">null</span>)
+
+  <span class="kw">useEffect</span>(() => {
+    <span class="kw">const</span> controller = <span class="kw">new</span> AbortController()
+    <span class="kw">const</span> fetchData = <span class="kw">async</span> () => {
+      <span class="kw">try</span> {
+        setLoading(<span class="kw">true</span>)
+        <span class="kw">const</span> res = <span class="kw">await</span> fetch(url, { signal: controller.signal })
+        <span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> Error(<span class="str">`HTTP ${res.status}`</span>)
+        setData(<span class="kw">await</span> res.json())
+      } <span class="kw">catch</span> (err) {
+        <span class="kw">if</span> (err.name !== <span class="str">"AbortError"</span>) setError(err.message)
+      } <span class="kw">finally</span> {
+        setLoading(<span class="kw">false</span>)
+      }
+    }
+    fetchData()
+    <span class="kw">return</span> () => controller.abort()
+  }, [url])
+
+  <span class="kw">return</span> { data, loading, error }
+}</code></pre>
+
+    <h3 class="section-label">2. useDebounce</h3>
+    <pre><code><span class="kw">const</span> useDebounce = &lt;T,&gt;(value: T, delay: number): T => {
+  <span class="kw">const</span> [debouncedValue, setDebouncedValue] = useState(value)
+  <span class="kw">useEffect</span>(() => {
+    <span class="kw">const</span> timer = setTimeout(() => setDebouncedValue(value), delay)
+    <span class="kw">return</span> () => clearTimeout(timer) <span class="cmt">// cancel if value changes before delay finishes</span>
+  }, [value, delay])
+  <span class="kw">return</span> debouncedValue
+}</code></pre>
+    <div class="fix-box">Without debounce: typing "Suresh" fires 6 API calls (one per keystroke). With debounce(500ms): only 1 API call fires, 500ms after the user stops typing.</div>
+
+    <h3 class="section-label">3. useLocalStorage</h3>
+    <pre><code><span class="kw">const</span> useLocalStorage = &lt;T,&gt;(key: string, initialValue: T) => {
+  <span class="kw">const</span> [storedValue, setStoredValue] = useState&lt;T&gt;(() => {
+    <span class="kw">try</span> {
+      <span class="kw">const</span> item = window.localStorage.getItem(key)
+      <span class="kw">return</span> item ? JSON.parse(item) : initialValue
+    } <span class="kw">catch</span> { <span class="kw">return</span> initialValue }
+  })
+
+  <span class="kw">const</span> setValue = (value: T) => {
+    setStoredValue(value)
+    window.localStorage.setItem(key, JSON.stringify(value))
+  }
+
+  <span class="kw">return</span> [storedValue, setValue] <span class="kw">as const</span>
+}</code></pre>
+    <div class="concept-box">Persists across page refreshes — behaves exactly like <code>useState</code>, but backed by <code>localStorage</code> instead of memory.</div>
+
+    <h3 class="section-label">4. TypeScript Generic Syntax Note</h3>
+    <div class="warn-box">In <code>.tsx</code> files, <code>&lt;T&gt;</code> looks like a JSX tag to the parser. Fix: add a trailing comma → <code>&lt;T,&gt;</code>, or use <code>&lt;T extends unknown&gt;</code>, or use the <code>function</code> keyword instead of an arrow function (no ambiguity there).</div>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"Custom hooks are functions starting with 'use' that encapsulate reusable stateful logic using other hooks. I create one whenever the same combination of hooks — like fetch + loading + error state — repeats across multiple components. It makes the code DRY, testable, and easier to read."</p>
+    </div>
+  </div>
+
+  <!-- ================= DAY 7 ================= -->
+  <div class="day" id="day7">
+    <span class="day-badge" style="background:#2e2814;color:#fbbf24;">DAY 7</span>
+    <h2>Zustand</h2>
+    <div class="subtitle">Tiny global state library — no Provider, automatic selective re-rendering</div>
+
+    <h3 class="section-label">1. Basic Store</h3>
+    <pre><code><span class="kw">import</span> { create } <span class="kw">from</span> <span class="str">"zustand"</span>
+
+<span class="kw">const</span> useCounterStore = create((set) => ({
+  count: <span class="str">0</span>,
+  increment: () => set(state => ({ count: state.count + <span class="str">1</span> })),
+  decrement: () => set(state => ({ count: state.count - <span class="str">1</span> })),
+  reset: () => set({ count: <span class="str">0</span> }),
+}))
+
+<span class="cmt">// use anywhere — no Provider wrapping needed!</span>
+<span class="kw">const</span> count = useCounterStore(state => state.count)
+<span class="kw">const</span> increment = useCounterStore(state => state.increment)</code></pre>
+
+    <h3 class="section-label">2. Selective Subscription — the key benefit</h3>
+    <div class="fix-box">Each component only re-renders when the <em>specific slice</em> of state it subscribed to changes — completely automatic, no manual context splitting needed like Day 5.</div>
+    <pre><code><span class="cmt">// This component ONLY re-renders when 'theme' changes — nothing else</span>
+<span class="kw">const</span> theme = useAppStore(state => state.theme)
+
+<span class="cmt">// This component ONLY re-renders when 'tasks' changes</span>
+<span class="kw">const</span> tasks = useAppStore(state => state.tasks)</code></pre>
+
+    <h3 class="section-label">3. Slices Pattern (larger stores)</h3>
+    <pre><code><span class="kw">interface</span> TaskSlice {
+  tasks: Task[]
+  addTask: (text: string) => void
+}
+<span class="kw">interface</span> ThemeSlice {
+  theme: <span class="str">"light"</span> | <span class="str">"dark"</span>
+  toggleTheme: () => void
+}
+<span class="kw">type</span> AppStore = TaskSlice & ThemeSlice <span class="cmt">// combine multiple slices into one store</span>
+
+<span class="kw">const</span> useAppStore = create&lt;AppStore&gt;((set) => ({
+  tasks: [],
+  addTask: (text) => set(state => ({
+    tasks: [...state.tasks, { id: Date.now(), text, completed: <span class="kw">false</span> }]
+  })),
+  theme: <span class="str">"light"</span>,
+  toggleTheme: () => set(state => ({
+    theme: state.theme === <span class="str">"light"</span> ? <span class="str">"dark"</span> : <span class="str">"light"</span>
+  })),
+}))</code></pre>
+
+    <h3 class="section-label">4. Zustand vs Context vs Redux</h3>
+    <table class="compare">
+      <tr><th>Feature</th><th>Context</th><th>Zustand</th><th>Redux</th></tr>
+      <tr><td>Setup</td><td>Provider + reducer + hooks</td><td>Just <code>create()</code></td><td>Actions + reducers + store</td></tr>
+      <tr><td>Boilerplate</td><td>High</td><td>Very low</td><td>High (less with Toolkit)</td></tr>
+      <tr><td>Performance</td><td>Manual splitting needed</td><td>Automatic</td><td>Good</td></tr>
+      <tr><td>Provider needed</td><td>Yes</td><td class="hl-good">No</td><td>Yes</td></tr>
+      <tr><td>Best for</td><td>Simple shared state (theme, auth)</td><td>Most apps' global state</td><td>Huge enterprise apps</td></tr>
+    </table>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"Zustand needs no Provider and gives automatic selective re-rendering — a component only re-renders when the specific slice of state it subscribed to actually changes. Context requires manually splitting state and dispatch into separate contexts to get the same effect, and Redux requires significantly more boilerplate for the same result."</p>
+    </div>
+  </div>
+
+  <!-- ================= DAY 8 ================= -->
+  <div class="day" id="day8">
+    <span class="day-badge" style="background:#142e28;color:#4fc3a1;">DAY 8</span>
+    <h2>React Query (TanStack Query)</h2>
+    <div class="subtitle">Server state — caching, deduplication, background refetch, all built in</div>
+
+    <h3 class="section-label">1. Client State vs Server State</h3>
+    <table class="compare">
+      <tr><th>Client State</th><th>Server State</th></tr>
+      <tr><td>Theme, sidebar open/closed, form inputs</td><td>Users list, tasks, products — lives on a server</td></tr>
+      <tr><td>Tool: useState, Zustand, Context</td><td>Tool: React Query</td></tr>
+    </table>
+
+    <h3 class="section-label">2. Why React Query over plain useEffect fetching</h3>
+    <ul class="point-list">
+      <li class="hl-bad">useEffect: no caching, no dedup, no retry, no background refetch, manual loading/error states, race conditions</li>
+      <li class="hl-good">React Query: all of the above solved automatically, by <code>queryKey</code></li>
+    </ul>
+
+    <h3 class="section-label">3. useQuery — fetching</h3>
+    <pre><code><span class="kw">const</span> { data: users, isLoading, isError, error, isFetching, refetch } = useQuery({
+  queryKey: [<span class="str">"users"</span>],          <span class="cmt">// cache identifier</span>
+  queryFn: fetchUsers,          <span class="cmt">// async function that fetches</span>
+  staleTime: <span class="str">1000</span> * <span class="str">30</span>,       <span class="cmt">// fresh for 30 seconds</span>
+})</code></pre>
+    <div class="concept-box"><strong>queryKey works like a cache key</strong> — same key returns cached data instantly; different key (e.g. <code>["user", 1]</code> vs <code>["user", 2]</code>) triggers a new fetch, but revisiting <code>["user", 1]</code> later returns the cache instantly.</div>
+
+    <h3 class="section-label">4. Dynamic queryKey + enabled flag</h3>
+    <pre><code><span class="kw">const</span> { data: user } = useQuery({
+  queryKey: [<span class="str">"user"</span>, userId],  <span class="cmt">// key changes → new fetch per userId</span>
+  queryFn: () => fetchUser(userId),
+  enabled: userId &gt; <span class="str">0</span>,   <span class="cmt">// only fetch when a valid id is selected</span>
+})</code></pre>
+
+    <h3 class="section-label">5. useMutation — creating/updating/deleting</h3>
+    <pre><code><span class="kw">const</span> mutation = useMutation({
+  mutationFn: (title) => fetch(<span class="str">"/api/tasks"</span>, {
+    method: <span class="str">"POST"</span>,
+    body: JSON.stringify({ title })
+  }).then(r => r.json()),
+
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: [<span class="str">"tasks"</span>] }) <span class="cmt">// auto-refetch fresh list</span>
+  }
+})
+
+mutation.mutate(<span class="str">"New task"</span>) <span class="cmt">// trigger it</span>
+mutation.isPending  <span class="cmt">// loading state, built in</span></code></pre>
+
+    <h3 class="section-label">6. staleTime vs gcTime</h3>
+    <table class="compare">
+      <tr><th>Setting</th><th>Meaning</th></tr>
+      <tr><td><code>staleTime</code></td><td>How long data is considered FRESH — no refetch during this window</td></tr>
+      <tr><td><code>gcTime</code></td><td>How long unused data stays in cache before being garbage collected</td></tr>
+    </table>
+
+    <h3 class="section-label">7. isLoading vs isFetching</h3>
+    <ul class="point-list">
+      <li><code>isLoading</code> → true only on the very FIRST fetch (no cached data yet)</li>
+      <li><code>isFetching</code> → true on EVERY fetch, including silent background refetches</li>
+    </ul>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"React Query solves problems useEffect fetching doesn't handle — caching by queryKey, deduplicating identical requests, retrying on failure, and refetching stale data in the background while still showing cached data instantly. useMutation handles create/update/delete, and calling invalidateQueries in onSuccess tells React Query to automatically refetch and update the UI."</p>
+    </div>
+  </div>
+
+  <!-- ================= DAY 9 ================= -->
+  <div class="day" id="day9">
+    <span class="day-badge" style="background:#241a2e;color:#a78bfa;">DAY 9</span>
+    <h2>Concurrent React</h2>
+    <div class="subtitle">useTransition, useDeferredValue, Suspense + lazy()</div>
+
+    <h3 class="section-label">1. useTransition</h3>
+    <div class="concept-box">Marks a state update as <strong>non-urgent</strong> — React finishes urgent updates (like typing) first, then processes the transition when it has spare time.</div>
+    <pre><code><span class="kw">const</span> [isPending, startTransition] = useTransition()
+
+<span class="kw">const</span> handleChange = (e) => {
+  setInput(e.target.value)        <span class="cmt">// urgent — updates instantly</span>
+  startTransition(() => {
+    setSearch(e.target.value)     <span class="cmt">// non-urgent — React can delay this</span>
+  })
+}
+<span class="cmt">// isPending === true while the heavy update is still catching up</span></code></pre>
+
+    <h3 class="section-label">2. useDeferredValue</h3>
+    <pre><code><span class="kw">const</span> deferredSearch = useDeferredValue(search)
+<span class="kw">const</span> isStale = search !== deferredSearch <span class="cmt">// true while list hasn't caught up yet</span>
+<span class="cmt">// input stays instantly responsive; heavy list re-renders when React has spare time</span></code></pre>
+    <table class="compare">
+      <tr><th>useTransition</th><th>useDeferredValue</th></tr>
+      <tr><td>You control WHEN a setState is marked non-urgent</td><td>You defer a VALUE you already have</td></tr>
+      <tr><td>Good when you own the state update</td><td>Good when value comes as a prop, no access to setState</td></tr>
+    </table>
+
+    <h3 class="section-label">3. Suspense + lazy() — code splitting</h3>
+    <pre><code><span class="cmt">// Without Suspense — everything loads upfront (slow initial load)</span>
+<span class="kw">import</span> HeavyComponent <span class="kw">from</span> <span class="str">"./HeavyComponent"</span>
+
+<span class="cmt">// With Suspense — loads ONLY when actually needed</span>
+<span class="kw">const</span> HeavyComponent = lazy(() => import(<span class="str">"./HeavyComponent"</span>))
+
+<span class="kw">const</span> App = () => (
+  &lt;Suspense fallback={&lt;p&gt;Loading...&lt;/p&gt;}&gt;
+    &lt;HeavyComponent /&gt;
+  &lt;/Suspense&gt;
+)</code></pre>
+    <div class="fix-box">Reduces initial bundle size — the component's code downloads only when it's actually rendered, not on first page load.</div>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"useTransition marks a state update as non-urgent so React prioritises things like input responsiveness first, then processes the heavy update when it has time — this keeps the UI from freezing. useDeferredValue achieves a similar effect but for a value directly, useful when you can't wrap the setState call yourself. Suspense with lazy() lets me code-split — components load on demand instead of bloating the initial bundle."</p>
+    </div>
+  </div>
+
+  <!-- ================= DAY 10 ================= -->
+  <div class="day" id="day10">
+    <span class="day-badge" style="background:#2e1a24;color:#f87171;">DAY 10</span>
+    <h2>Top 20 Interview Questions — Full Answers</h2>
+    <div class="subtitle">Rehearsed out loud, not just read</div>
+
+    <h4 class="sub-label">Q1 — What is the virtual DOM?</h4>
+    <p>A lightweight JS copy of the real DOM. React builds a new virtual tree on state change, diffs it against the previous one, and updates only the changed parts in the real DOM — avoiding expensive full re-renders.</p>
+
+    <h4 class="sub-label">Q2 — What is a stale closure, and how do you fix it?</h4>
+    <p>A function capturing a variable's value at creation time, never seeing updates because the effect doesn't re-run. Fix: functional updates like <code>setCount(c => c + 1)</code>.</p>
+
+    <h4 class="sub-label">Q3 — When should you NOT use useEffect?</h4>
+    <p>Deriving state from props/state, filtering/transforming data, responding to user events — calculate directly or handle in the event handler instead.</p>
+
+    <h4 class="sub-label">Q4 — useMemo vs useCallback?</h4>
+    <p>useMemo caches a computed VALUE; useCallback caches a FUNCTION reference — used with memoized children so they don't re-render on every parent render.</p>
+
+    <h4 class="sub-label">Q5 — Can useMemo make your app slower?</h4>
+    <p>Yes — it has its own overhead (storing value, comparing deps). Only worth it for genuinely expensive calculations or stabilising references for memoized children.</p>
+
+    <h4 class="sub-label">Q6 — What is reference equality and why does it matter?</h4>
+    <p>Primitives compare by value; objects/arrays/functions compare by memory reference. New objects/functions every render break memo() on children even when data is unchanged.</p>
+
+    <h4 class="sub-label">Q7 — useReducer vs useState?</h4>
+    <p>useState for simple independent values; useReducer for complex related state, many action types, and testable state logic — pairs well with Context.</p>
+
+    <h4 class="sub-label">Q8 — Why never mutate state directly?</h4>
+    <p>React detects changes via reference equality. Mutating keeps the same reference, so React thinks nothing changed and skips the re-render. Always return a new object with spread.</p>
+
+    <h4 class="sub-label">Q9 — Context performance problem and fix?</h4>
+    <p>Combined state+dispatch context re-renders every consumer on any change. Fix: split into StateContext and DispatchContext — dispatch is stable, so dispatch-only consumers never re-render.</p>
+
+    <h4 class="sub-label">Q10 — Context vs Zustand?</h4>
+    <p>Context needs a Provider and manual splitting for performance. Zustand needs no Provider and gives automatic selective re-rendering. Use Context for simple values, Zustand for complex global state.</p>
+
+    <h4 class="sub-label">Q11 — What is React Query and why use it?</h4>
+    <p>A server state library solving caching, deduplication, retry, background refetch, and loading/error states automatically — all problems manual useEffect fetching has.</p>
+
+    <h4 class="sub-label">Q12 — What is staleTime?</h4>
+    <p>How long fetched data is considered fresh — during this window, cached data is served with no network request; after it passes, React Query refetches in the background.</p>
+
+    <h4 class="sub-label">Q13 — What is useTransition for?</h4>
+    <p>Marks state updates as non-urgent so React prioritises input responsiveness, processing the heavy update when it has spare time — keeps UI from freezing.</p>
+
+    <h4 class="sub-label">Q14 — useTransition vs useDeferredValue?</h4>
+    <p>useTransition wraps the setState call itself; useDeferredValue wraps a value you already have — useful when you can't access the setState directly (e.g. value from a prop).</p>
+
+    <h4 class="sub-label">Q15 — What are custom hooks and when do you create one?</h4>
+    <p>Functions starting with "use" encapsulating reusable stateful logic. Create one when the same hook combination repeats across components — DRY, testable, readable.</p>
+
+    <h4 class="sub-label">Q16 — What is the cleanup function in useEffect?</h4>
+    <p>Runs before the next effect execution and on unmount — cancels timers, aborts fetches, removes listeners. Without it, timers/subscriptions keep running after the component is gone — memory leak.</p>
+
+    <h4 class="sub-label">Q17 — Why is the key prop important?</h4>
+    <p>Helps React's reconciliation match old vs new virtual DOM nodes correctly during diffing. Without stable keys, React can re-render the wrong components or lose their state — never use array index for reorderable/filterable lists.</p>
+
+    <h4 class="sub-label">Q18 — What is Suspense?</h4>
+    <p>Declaratively specifies a loading fallback for parts of the tree not yet ready — used with lazy() for code splitting, or with data fetching libraries to show a fallback while data loads.</p>
+
+    <h4 class="sub-label">Q19 — Client state vs server state?</h4>
+    <p>Client state is app-owned data (theme, form inputs) — useState/Zustand. Server state lives on a server (users, tasks) with unique challenges (caching, staleness) — React Query is built specifically for this.</p>
+
+    <h4 class="sub-label">Q20 — How would you optimise a slow React app?</h4>
+    <p>Profile with React DevTools → wrap expensive children in memo → wrap callback props in useCallback so memo works → wrap expensive calculations in useMemo → split Context into state/dispatch → use useTransition for non-urgent heavy updates → use React Query to avoid redundant fetches → code-split with lazy + Suspense to shrink the initial bundle.</p>
+  </div>
+
+  <p class="footer-note">Built from your 10-day React deep dive · Full depth, not condensed · Keep alongside your EF Core / C# notes</p>
+
+</div>
+</body>
+</html>

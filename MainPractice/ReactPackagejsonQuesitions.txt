@@ -1,0 +1,124 @@
+Sure. Here are simple notes you can keep for revision/interview preparation.
+
+### NPM Scripts, Node, JSON.stringify, ESLint — Notes
+
+| Term                 | Meaning                                                           | Example / Purpose                        |
+| -------------------- | ----------------------------------------------------------------- | ---------------------------------------- |
+| **npm**              | Node Package Manager                                              | Installs packages and runs scripts       |
+| **scripts**          | Commands defined in `package.json`                                | `"start"`, `"build"`, `"test"`           |
+| **npm start**        | Runs the `"start"` script                                         | Starts the application                   |
+| **npm run build**    | Runs the `"build"` script                                         | Creates production build                 |
+| **npm run lint**     | Runs the `"lint"` script                                          | Checks code with ESLint                  |
+| **Node.js**          | JavaScript runtime                                                | Allows JavaScript to run outside browser |
+| **node -p**          | Evaluates a JS expression and prints the result                   | `node -p "2 + 3"` → `5`                  |
+| **require()**        | Loads a module/file in Node.js                                    | `require('./package.json')`              |
+| **JSON.stringify()** | Converts a JS value/object into a JSON string                     | `JSON.stringify("1.2.0")` → `"1.2.0"`    |
+| **ESLint**           | Finds code problems and rule violations                           | Undefined/unused variables, etc.         |
+| **Prettier**         | Automatically formats code                                        | Spacing, indentation, line formatting    |
+| **Jest**             | JavaScript testing framework                                      | Runs unit/component tests                |
+| **react-scripts**    | Scripts/configuration commonly used by Create React App           | Start, build, eject                      |
+| **react-dotenv**     | Makes configured environment variables available to the React app | Used before start/build                  |
+| **`&&`**             | Run next command only if previous command succeeds                | `command1 && command2`                   |
+| **`>`**              | Redirect command output into a file                               | `> src/version.ts`                       |
+
+### Your `prebuild` command
+
+```json id="35ov5g"
+"prebuild": "node -p \"'export const APP_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts"
+```
+
+Its job is:
+
+```text id="2gzzq6"
+Read version from package.json
+        ↓
+Convert version to JSON string
+        ↓
+Create TypeScript statement
+        ↓
+Write it to src/version.ts
+```
+
+For example, if `package.json` contains:
+
+```json id="96fdyg"
+"version": "2.3.0"
+```
+
+it generates:
+
+```typescript id="tl86mu"
+export const APP_VERSION = "2.3.0";
+```
+
+### Your scripts in simple terms
+
+```text id="2jnusw"
+start          → Start React application for development
+prebuild       → Generate version.ts before building
+build          → Create production build
+serve          → Serve the production build
+test           → Run Jest tests
+eject          → Expose Create React App configuration
+lint           → Check source code using ESLint
+format         → Format files using Prettier
+prettier:check → Check formatting without modifying files
+generate-docs  → Generate project documentation
+```
+
+### Important interview points
+
+**ESLint vs Prettier**
+
+```text id="w4qjzz"
+ESLint   → Is there a problem with my code?
+Prettier → Is my code formatted consistently?
+```
+
+**npm vs Node.js**
+
+```text id="z17ppw"
+Node.js → Runs JavaScript
+npm     → Manages packages and runs project scripts
+```
+
+**`JSON.stringify()` vs `JSON.parse()`**
+
+```javascript id="py8ppb"
+// JavaScript object/value → JSON string
+JSON.stringify(value)
+
+// JSON string → JavaScript object/value
+JSON.parse(jsonString)
+```
+
+Example:
+
+```javascript id="1zqj8f"
+const user = { name: "John", age: 30 };
+
+const json = JSON.stringify(user);
+console.log(json);
+```
+
+Result:
+
+```json id="2jrf7g"
+{"name":"John","age":30}
+```
+
+Then:
+
+```javascript id="27a2ew"
+const obj = JSON.parse(json);
+
+console.log(obj.name);
+```
+
+Result:
+
+```text id="7du0bc"
+John
+```
+
+These are good basic notes to remember for **Node/npm/React interview questions**.

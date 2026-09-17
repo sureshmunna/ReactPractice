@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>React Deep Dive — Interview Notes</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card-bg: #161925;
+    --text: #e6e8ef;
+    --muted: #9aa1b5;
+    --teal: #4fc3a1;
+    --purple: #a78bfa;
+    --amber: #fbbf24;
+    --coral: #f87171;
+    --blue: #60a5fa;
+    --border: #262b3d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 0 80px;
+  }
+  header {
+    background: linear-gradient(135deg, #1a1f2e, #12151f);
+    padding: 48px 24px 32px;
+    text-align: center;
+    border-bottom: 3px solid var(--teal);
+  }
+  header h1 {
+    margin: 0 0 8px;
+    font-size: 32px;
+    color: #fff;
+  }
+  header p {
+    color: var(--muted);
+    margin: 0;
+    font-size: 15px;
+  }
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 32px 20px;
+  }
+  .toc {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 40px;
+  }
+  .toc h2 { margin-top: 0; color: var(--teal); font-size: 18px; }
+  .toc ol { margin: 0; padding-left: 20px; columns: 2; }
+  .toc li { margin-bottom: 8px; }
+  .toc a { color: var(--blue); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  .day {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 28px 8px;
+    margin-bottom: 32px;
+    scroll-margin-top: 20px;
+  }
+  .day-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .day h2 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    color: #fff;
+  }
+  .day .subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  h3.section-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--teal);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin: 26px 0 14px;
+  }
+  .concept-box {
+    background: #10131c;
+    border-left: 4px solid var(--blue);
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+  .warn-box {
+    background: #1a1310;
+    border-left: 4px solid var(--coral);
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+  .fix-box {
+    background: #101a17;
+    border-left: 4px solid var(--teal);
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+  pre {
+    background: #0a0c12;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 13.5px;
+    margin: 0 0 16px;
+  }
+  code {
+    font-family: 'SFMono-Regular', Consolas, Menlo, monospace;
+  }
+  .kw { color: var(--purple); }
+  .fn { color: var(--blue); }
+  .str { color: var(--amber); }
+  .cmt { color: #6b7280; font-style: italic; }
+  .hl-good { color: var(--teal); font-weight: 700; }
+  .hl-bad { color: var(--coral); font-weight: 700; }
+  .interview-box {
+    background: linear-gradient(135deg, #1a1a2e, #16182a);
+    border: 1px solid var(--purple);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 16px 0 20px;
+  }
+  .interview-box .tag {
+    color: var(--purple);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .interview-box p { margin: 8px 0 0; font-style: italic; color: #d8daea; }
+  ul.point-list { padding-left: 20px; }
+  ul.point-list li { margin-bottom: 6px; }
+  .footer-note {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚛️ React Deep Dive — Interview Notes</h1>
+  <p>10-Day Curriculum — Hooks, State Management, Concurrent React</p>
+</header>
+
+<div class="container">
+
+  <div class="toc">
+    <h2>📑 Contents</h2>
+    <ol>
+      <li><a href="#day1">Day 1 — useState Deep Dive</a></li>
+      <li><a href="#day2">Day 2 — useEffect Deep Dive</a></li>
+      <li><a href="#day3">Day 3 — useMemo, useCallback, memo</a></li>
+      <li><a href="#day4">Day 4 — useReducer</a></li>
+      <li><a href="#day5">Day 5 — Context Performance Splitting</a></li>
+      <li><a href="#day6">Day 6 — Custom Hooks</a></li>
+      <li><a href="#day7">Day 7 — Zustand</a></li>
+      <li><a href="#day8">Day 8 — React Query</a></li>
+      <li><a href="#day9">Day 9 — Concurrent React</a></li>
+      <li><a href="#day10">Day 10 — Interview Q&A Recap</a></li>
+    </ol>
+  </div>
+
+  <!-- DAY 1 -->
+  <div class="day" id="day1">
+    <span class="day-badge" style="background:#14352e;color:#4fc3a1;">DAY 1</span>
+    <h2>useState — Stale Closures, Batching, Lazy Init</h2>
+    <div class="subtitle">The #1 hook, and the #1 interview trap</div>
+
+    <h3 class="section-label">1. Stale Closures</h3>
+    <div class="concept-box">
+      A function inside <code>useEffect</code> captures a variable's value <em>at creation time</em> and never sees updates, because the effect doesn't re-run.
+    </div>
+    <pre><code><span class="cmt">// ❌ BUGGY — count is frozen at 0 forever</span>
+<span class="kw">useEffect</span>(() => {
+  <span class="kw">const</span> timer = setInterval(() => {
+    setCount(count + <span class="str">1</span>) <span class="cmt">// always reads count = 0</span>
+  }, <span class="str">1000</span>)
+  <span class="kw">return</span> () => clearInterval(timer)
+}, [])
+
+<span class="cmt">// ✅ FIXED — functional update gets the LATEST value from React</span>
+<span class="kw">useEffect</span>(() => {
+  <span class="kw">const</span> timer = setInterval(() => {
+    setCount(c => c + <span class="str">1</span>) <span class="cmt">// always fresh</span>
+  }, <span class="str">1000</span>)
+  <span class="kw">return</span> () => clearInterval(timer)
+}, [])</code></pre>
+
+    <h3 class="section-label">2. React 18 Batching</h3>
+    <div class="fix-box">
+      Multiple <code>setState</code> calls — even inside <code>async</code> functions — are batched into <span class="hl-good">ONE re-render</span> in React 18.
+    </div>
+    <pre><code><span class="kw">const</span> handleClick = <span class="kw">async</span> () => {
+  <span class="kw">await</span> fetch(<span class="str">'/api'</span>)
+  setCount(c => c + <span class="str">1</span>)  <span class="cmt">// batched</span>
+  setName(<span class="str">"Suresh"</span>)      <span class="cmt">// batched — only 1 render total</span>
+}</code></pre>
+
+    <h3 class="section-label">3. Lazy Initialisation</h3>
+    <pre><code><span class="cmt">// ❌ Runs expensiveCalc() on EVERY render</span>
+<span class="kw">const</span> [value, setValue] = useState(expensiveCalc())
+
+<span class="cmt">// ✅ Runs ONLY ONCE on mount — pass a function, not a value</span>
+<span class="kw">const</span> [value, setValue] = useState(() => expensiveCalc())</code></pre>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"A stale closure happens when a function captures a variable's value at creation time and never sees updates. The fix is functional updates like <code>setState(prev => prev + 1)</code>, so React always hands back the latest value directly instead of reading a frozen variable."</p>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day" id="day2">
+    <span class="day-badge" style="background:#2e2414;color:#fbbf24;">DAY 2</span>
+    <h2>useEffect — Cleanup, Race Conditions, When NOT to Use It</h2>
+    <div class="subtitle">The most misunderstood hook in React</div>
+
+    <h3 class="section-label">1. Three situations where you should NOT use useEffect</h3>
+    <ul class="point-list">
+      <li><span class="hl-good">Deriving state</span> — just calculate directly: <code>const fullName = first + " " + last</code></li>
+      <li><span class="hl-good">Filtering/transforming data</span> — filter inline: <code>const active = users.filter(u => u.active)</code></li>
+      <li><span class="hl-good">Responding to user events</span> — handle it in the event handler, not in an effect watching state</li>
+    </ul>
+
+    <h3 class="section-label">2. Race Conditions — AbortController</h3>
+    <div class="warn-box">
+      Two fetches firing (e.g. user clicks quickly) can resolve <em>out of order</em> — the older, slower one can overwrite the newer result.
+    </div>
+    <pre><code><span class="kw">useEffect</span>(() => {
+  <span class="kw">const</span> controller = <span class="kw">new</span> AbortController()
+
+  fetch(<span class="str">`/api/user/${userId}`</span>, { signal: controller.signal })
+    .then(res => res.json())
+    .then(data => setUser(data))
+    .catch(err => {
+      <span class="kw">if</span> (err.name === <span class="str">"AbortError"</span>) <span class="kw">return</span> <span class="cmt">// cancelled — ignore</span>
+    })
+
+  <span class="kw">return</span> () => controller.abort() <span class="cmt">// cancel previous fetch on change</span>
+}, [userId])</code></pre>
+
+    <h3 class="section-label">3. Cleanup Function</h3>
+    <div class="fix-box">
+      Runs before the next effect execution AND on unmount. Prevents memory leaks — cancel timers, abort fetches, remove listeners.
+    </div>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"useEffect is only for synchronising with external systems — APIs, timers, subscriptions. If I'm just deriving or filtering data, I calculate it directly during render instead of syncing it into state via an effect."</p>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="day" id="day3">
+    <span class="day-badge" style="background:#241a2e;color:#a78bfa;">DAY 3</span>
+    <h2>useMemo, useCallback, React.memo</h2>
+    <div class="subtitle">Reference equality — the root of unnecessary re-renders</div>
+
+    <h3 class="section-label">Reference Equality</h3>
+    <pre><code><span class="cmt">// Primitives — compared by VALUE</span>
+<span class="str">1</span> === <span class="str">1</span>              <span class="cmt">// ✅ true</span>
+
+<span class="cmt">// Objects/Arrays/Functions — compared by REFERENCE</span>
+{} === {}              <span class="hl-bad">// ❌ false — different memory addresses</span></code></pre>
+
+    <h3 class="section-label">useMemo — cache a VALUE</h3>
+    <pre><code><span class="kw">const</span> user = useMemo(() => ({ name }), [name])
+<span class="cmt">// same reference unless 'name' changes → child with memo() skips re-render</span></code></pre>
+
+    <h3 class="section-label">useCallback — cache a FUNCTION</h3>
+    <pre><code><span class="kw">const</span> handleDelete = useCallback((task) => {
+  setTasks(prev => prev.filter(t => t !== task))
+}, [])
+<span class="cmt">// stable function reference → memo() on child TaskItem actually works</span></code></pre>
+
+    <div class="warn-box">
+      <strong>Can useMemo make things SLOWER?</strong> Yes — it has its own cost (storing + comparing dependencies). Only use it for genuinely expensive calculations or stable references for child components.
+    </div>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"useMemo caches a computed value; useCallback caches a function reference. Both exist to prevent child components wrapped in <code>memo</code> from re-rendering just because they received a new object/function reference every render, even when the actual data hasn't changed."</p>
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="day" id="day4">
+    <span class="day-badge" style="background:#142e28;color:#4fc3a1;">DAY 4</span>
+    <h2>useReducer</h2>
+    <div class="subtitle">Complex state, never mutate directly</div>
+
+    <h3 class="section-label">Never Mutate State</h3>
+    <pre><code><span class="cmt">// ❌ Mutating — React won't detect the change (same reference)</span>
+<span class="kw">case</span> <span class="str">"update"</span>:
+  state.name = <span class="str">"Suresh"</span>
+  <span class="kw">return</span> state
+
+<span class="cmt">// ✅ Return a NEW object — React sees a new reference, re-renders</span>
+<span class="kw">case</span> <span class="str">"update"</span>:
+  <span class="kw">return</span> { ...state, name: <span class="str">"Suresh"</span> }</code></pre>
+
+    <h3 class="section-label">useReducer vs useState</h3>
+    <ul class="point-list">
+      <li>useState → simple, independent values</li>
+      <li>useReducer → multiple related sub-values, complex transitions, many action types</li>
+    </ul>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"React uses reference equality to detect state changes. Mutating an object directly keeps the same reference, so React thinks nothing changed and skips the re-render. Always return a new object with spread syntax."</p>
+    </div>
+  </div>
+
+  <!-- DAY 5 -->
+  <div class="day" id="day5">
+    <span class="day-badge" style="background:#2e1a24;color:#f87171;">DAY 5</span>
+    <h2>Context Performance Splitting</h2>
+    <div class="subtitle">Why one combined context causes unnecessary re-renders</div>
+
+    <div class="warn-box">
+      When <code>state</code> and <code>dispatch</code> live in ONE context, every consumer re-renders on ANY change — even components that only use <code>dispatch</code>, which React guarantees never changes.
+    </div>
+
+    <pre><code><span class="cmt">// ✅ Split into two contexts</span>
+<span class="kw">const</span> AppStateContext = createContext(<span class="kw">null</span>)
+<span class="kw">const</span> AppDispatchContext = createContext(<span class="kw">null</span>)
+
+<span class="cmt">// dispatch-only components NEVER re-render on state change</span>
+<span class="kw">const</span> TaskInput = memo(() => {
+  <span class="kw">const</span> dispatch = useAppDispatch() <span class="cmt">// only subscribes to dispatch</span>
+  ...
+})</code></pre>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"Splitting state and dispatch into separate contexts means dispatch-only consumers never re-render, since dispatch is guaranteed stable by React. Combined with memo, this gives fine-grained control without any external library."</p>
+    </div>
+  </div>
+
+  <!-- DAY 6 -->
+  <div class="day" id="day6">
+    <span class="day-badge" style="background:#1a242e;color:#60a5fa;">DAY 6</span>
+    <h2>Custom Hooks</h2>
+    <div class="subtitle">useFetch, useDebounce, useLocalStorage — built from scratch</div>
+
+    <h3 class="section-label">useDebounce</h3>
+    <pre><code><span class="kw">const</span> useDebounce = (value, delay) => {
+  <span class="kw">const</span> [debounced, setDebounced] = useState(value)
+  <span class="kw">useEffect</span>(() => {
+    <span class="kw">const</span> timer = setTimeout(() => setDebounced(value), delay)
+    <span class="kw">return</span> () => clearTimeout(timer) <span class="cmt">// cancel if value changes before delay</span>
+  }, [value, delay])
+  <span class="kw">return</span> debounced
+}</code></pre>
+
+    <h3 class="section-label">useLocalStorage</h3>
+    <pre><code><span class="kw">const</span> useLocalStorage = (key, initialValue) => {
+  <span class="kw">const</span> [value, setValue] = useState(() => {
+    <span class="kw">const</span> item = localStorage.getItem(key)
+    <span class="kw">return</span> item ? JSON.parse(item) : initialValue
+  })
+  <span class="kw">const</span> setAndStore = (v) => {
+    setValue(v)
+    localStorage.setItem(key, JSON.stringify(v))
+  }
+  <span class="kw">return</span> [value, setAndStore]
+}</code></pre>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"Custom hooks are functions starting with 'use' that encapsulate reusable stateful logic. I create one when the same combination of hooks repeats across multiple components — it makes code DRY and testable."</p>
+    </div>
+  </div>
+
+  <!-- DAY 7 -->
+  <div class="day" id="day7">
+    <span class="day-badge" style="background:#2e2814;color:#fbbf24;">DAY 7</span>
+    <h2>Zustand</h2>
+    <div class="subtitle">Global state, no Provider, automatic selective re-rendering</div>
+
+    <pre><code><span class="kw">const</span> useCounterStore = create((set) => ({
+  count: <span class="str">0</span>,
+  increment: () => set(state => ({ count: state.count + <span class="str">1</span> })),
+}))
+
+<span class="cmt">// component only re-renders when 'count' changes — nothing else</span>
+<span class="kw">const</span> count = useCounterStore(state => state.count)</code></pre>
+
+    <h3 class="section-label">Zustand vs Context vs Redux</h3>
+    <ul class="point-list">
+      <li><strong>Context</strong> — free, built-in, needs manual splitting for performance</li>
+      <li><strong>Zustand</strong> — tiny, no Provider, automatic selective re-rendering</li>
+      <li><strong>Redux</strong> — powerful, heavy boilerplate, best for huge enterprise apps</li>
+    </ul>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"Zustand needs no Provider and gives automatic selective re-rendering — components only re-render when their specific subscribed slice of state changes. Context requires manually splitting state/dispatch to get the same effect."</p>
+    </div>
+  </div>
+
+  <!-- DAY 8 -->
+  <div class="day" id="day8">
+    <span class="day-badge" style="background:#142e28;color:#4fc3a1;">DAY 8</span>
+    <h2>React Query (TanStack)</h2>
+    <div class="subtitle">Server state — caching, dedup, background refetch, all built in</div>
+
+    <pre><code><span class="kw">const</span> { data, isLoading, error } = useQuery({
+  queryKey: [<span class="str">"users"</span>],
+  queryFn: fetchUsers,
+  staleTime: <span class="str">1000</span> * <span class="str">60</span>, <span class="cmt">// fresh for 1 minute</span>
+})
+
+<span class="kw">const</span> mutation = useMutation({
+  mutationFn: addTask,
+  onSuccess: () => queryClient.invalidateQueries({ queryKey: [<span class="str">"tasks"</span>] })
+})</code></pre>
+
+    <h3 class="section-label">Client State vs Server State</h3>
+    <ul class="point-list">
+      <li>Client state (theme, form inputs) → useState / Zustand</li>
+      <li>Server state (users, tasks from API) → React Query</li>
+    </ul>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"useEffect fetching has no caching, no dedup, no retry, and manual loading states. React Query solves all of this — it caches by queryKey, dedupes identical requests, retries on failure, and refetches stale data in the background automatically."</p>
+    </div>
+  </div>
+
+  <!-- DAY 9 -->
+  <div class="day" id="day9">
+    <span class="day-badge" style="background:#241a2e;color:#a78bfa;">DAY 9</span>
+    <h2>Concurrent React</h2>
+    <div class="subtitle">useTransition, useDeferredValue, Suspense</div>
+
+    <h3 class="section-label">useTransition</h3>
+    <pre><code><span class="kw">const</span> [isPending, startTransition] = useTransition()
+
+setInput(e.target.value)          <span class="cmt">// urgent — instant</span>
+startTransition(() => {
+  setSearch(e.target.value)       <span class="cmt">// non-urgent — can be delayed</span>
+})</code></pre>
+
+    <h3 class="section-label">useDeferredValue</h3>
+    <pre><code><span class="kw">const</span> deferredSearch = useDeferredValue(search)
+<span class="cmt">// input stays instantly responsive; heavy list catches up when React has time</span></code></pre>
+
+    <h3 class="section-label">Suspense + lazy()</h3>
+    <pre><code><span class="kw">const</span> LazyCard = lazy(() => import(<span class="str">'./HeavyComponent'</span>))
+
+&lt;Suspense fallback={&lt;p&gt;Loading...&lt;/p&gt;}&gt;
+  &lt;LazyCard /&gt;
+&lt;/Suspense&gt;</code></pre>
+
+    <div class="interview-box">
+      <span class="tag">Interview Answer</span>
+      <p>"useTransition marks state updates as non-urgent — React prioritises input responsiveness first, then processes the transition when it has time. useDeferredValue achieves something similar but for a value you already have, useful when you can't access the setState directly."</p>
+    </div>
+  </div>
+
+  <!-- DAY 10 -->
+  <div class="day" id="day10">
+    <span class="day-badge" style="background:#2e1a24;color:#f87171;">DAY 10</span>
+    <h2>Interview Q&A Recap</h2>
+    <div class="subtitle">The questions most likely to come up</div>
+
+    <ul class="point-list">
+      <li><strong>Virtual DOM?</strong> — Lightweight JS copy of real DOM; React diffs old vs new tree, updates only what changed.</li>
+      <li><strong>Stale closure fix?</strong> — Functional updates: <code>setState(prev => ...)</code></li>
+      <li><strong>When NOT to use useEffect?</strong> — Deriving state, filtering data, responding to events.</li>
+      <li><strong>useMemo vs useCallback?</strong> — Value vs function reference caching.</li>
+      <li><strong>Why never mutate state?</strong> — React uses reference equality to detect changes.</li>
+      <li><strong>Context performance fix?</strong> — Split state and dispatch into separate contexts.</li>
+      <li><strong>Zustand vs Context?</strong> — No Provider, automatic selective re-rendering.</li>
+      <li><strong>Why React Query over useEffect?</strong> — Caching, dedup, retry, background refetch, built-in loading/error states.</li>
+      <li><strong>Key prop importance?</strong> — Helps React's reconciliation match old/new nodes correctly; never use index for reorderable lists.</li>
+      <li><strong>How to optimise a slow React app?</strong> — Profiler → memo + useCallback + useMemo → split Context → useTransition → React Query → code splitting with Suspense.</li>
+    </ul>
+  </div>
+
+  <p class="footer-note">Built from your 10-day React deep dive · Keep this alongside your EF Core / C# notes</p>
+
+</div>
+</body>
+</html>

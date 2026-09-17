@@ -1,0 +1,2355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>React & Web Development Basics - Revision Notes</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f7fb;
+        color: #1f2937;
+        line-height: 1.65;
+    }
+
+    header {
+        background: linear-gradient(135deg, #172554, #2563eb);
+        color: white;
+        padding: 50px 25px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 38px;
+    }
+
+    header p {
+        font-size: 18px;
+        opacity: 0.9;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: auto;
+        padding: 30px 20px;
+    }
+
+    section {
+        background: white;
+        margin: 25px 0;
+        padding: 28px;
+        border-radius: 14px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    }
+
+    h2 {
+        color: #1d4ed8;
+        border-bottom: 3px solid #dbeafe;
+        padding-bottom: 8px;
+    }
+
+    h3 {
+        color: #374151;
+        margin-top: 25px;
+    }
+
+    code {
+        background: #eef2ff;
+        color: #4338ca;
+        padding: 3px 7px;
+        border-radius: 5px;
+        font-family: Consolas, monospace;
+    }
+
+    pre {
+        background: #111827;
+        color: #e5e7eb;
+        padding: 18px;
+        border-radius: 10px;
+        overflow-x: auto;
+        font-family: Consolas, monospace;
+        line-height: 1.5;
+    }
+
+    .important {
+        background: #fff7ed;
+        border-left: 5px solid #f97316;
+        padding: 15px 18px;
+        margin: 15px 0;
+        border-radius: 6px;
+    }
+
+    .tip {
+        background: #ecfdf5;
+        border-left: 5px solid #10b981;
+        padding: 15px 18px;
+        margin: 15px 0;
+        border-radius: 6px;
+    }
+
+    .warning {
+        background: #fef2f2;
+        border-left: 5px solid #ef4444;
+        padding: 15px 18px;
+        margin: 15px 0;
+        border-radius: 6px;
+    }
+
+    .blue {
+        background: #eff6ff;
+        border-left: 5px solid #3b82f6;
+        padding: 15px 18px;
+        margin: 15px 0;
+        border-radius: 6px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+    }
+
+    th {
+        background: #1d4ed8;
+        color: white;
+        padding: 12px;
+        text-align: left;
+    }
+
+    td {
+        border: 1px solid #d1d5db;
+        padding: 10px;
+    }
+
+    tr:nth-child(even) {
+        background: #f9fafb;
+    }
+
+    .badge {
+        display: inline-block;
+        background: #dbeafe;
+        color: #1e40af;
+        padding: 4px 9px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .toc a {
+        text-decoration: none;
+        color: #2563eb;
+    }
+
+    .toc li {
+        margin: 6px 0;
+    }
+
+    .interview {
+        background: #f5f3ff;
+        border-left: 5px solid #7c3aed;
+        padding: 15px 18px;
+        margin-top: 15px;
+    }
+
+    .flow {
+        text-align: center;
+        background: #f8fafc;
+        padding: 20px;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+
+    footer {
+        text-align: center;
+        padding: 30px;
+        color: #6b7280;
+    }
+
+    @media print {
+        body {
+            background: white;
+        }
+
+        section {
+            box-shadow: none;
+            break-inside: avoid;
+        }
+
+        header {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>React & Web Development Basics</h1>
+    <p>JavaScript • TypeScript • React • Next.js • npm • APIs • Git • Build & Deployment</p>
+    <p><strong>Complete Revision & Interview Notes</strong></p>
+</header>
+
+<div class="container">
+
+<section class="toc">
+<h2>📚 Contents</h2>
+
+<ol>
+    <li><a href="#node">Node.js</a></li>
+    <li><a href="#npm">npm</a></li>
+    <li><a href="#npx">npx</a></li>
+    <li><a href="#package">package.json & package-lock.json</a></li>
+    <li><a href="#dependencies">dependencies vs devDependencies</a></li>
+    <li><a href="#semver">Semantic Versioning</a></li>
+    <li><a href="#scripts">npm Scripts</a></li>
+    <li><a href="#shell">Shell Operators</a></li>
+    <li><a href="#json">JSON.stringify & JSON.parse</a></li>
+    <li><a href="#eslint">ESLint & Prettier</a></li>
+    <li><a href="#jest">Jest</a></li>
+    <li><a href="#typescript">TypeScript Basics</a></li>
+    <li><a href="#javascript">JavaScript Basics</a></li>
+    <li><a href="#react">React Basics</a></li>
+    <li><a href="#state">State & useState</a></li>
+    <li><a href="#effect">useEffect</a></li>
+    <li><a href="#context">Context API</a></li>
+    <li><a href="#async">Async/Await & Promises</a></li>
+    <li><a href="#fetch">Fetch & APIs</a></li>
+    <li><a href="#http">HTTP Basics</a></li>
+    <li><a href="#next">Next.js Basics</a></li>
+    <li><a href="#serverclient">Server vs Client Components</a></li>
+    <li><a href="#supabase">Supabase Basics</a></li>
+    <li><a href="#env">Environment Variables</a></li>
+    <li><a href="#git">Git Basics</a></li>
+    <li><a href="#build">Build Process</a></li>
+    <li><a href="#interview">Interview Quick Revision</a></li>
+</ol>
+</section>
+
+
+<!-- NODE -->
+
+<section id="node">
+<h2>1. Node.js</h2>
+
+<p><strong>Node.js</strong> is a JavaScript runtime that allows JavaScript to run outside the browser.</p>
+
+<p>Normally:</p>
+
+<div class="flow">
+JavaScript → Browser → Chrome / Edge / Firefox
+</div>
+
+<p>With Node.js:</p>
+
+<div class="flow">
+JavaScript → Node.js → Operating System
+</div>
+
+<h3>Why do we need Node.js?</h3>
+
+<ul>
+<li>Run JavaScript on the server.</li>
+<li>Run development tools.</li>
+<li>Run npm commands.</li>
+<li>Build React/Next.js applications.</li>
+<li>Create backend applications.</li>
+</ul>
+
+<h3>Check Node version</h3>
+
+<pre>node -v</pre>
+
+<p>Example:</p>
+
+<pre>v24.18.0</pre>
+
+<div class="tip">
+<strong>Remember:</strong> Node.js is the runtime. npm is the package manager that normally comes with Node.js.
+</div>
+
+</section>
+
+
+<!-- NPM -->
+
+<section id="npm">
+<h2>2. npm</h2>
+
+<p><strong>npm</strong> stands for <strong>Node Package Manager</strong>.</p>
+
+<p>It is used to:</p>
+
+<ul>
+<li>Install packages.</li>
+<li>Remove packages.</li>
+<li>Update packages.</li>
+<li>Run project scripts.</li>
+<li>Manage project dependencies.</li>
+</ul>
+
+<h3>Install a package</h3>
+
+<pre>npm install react</pre>
+
+<p>Short version:</p>
+
+<pre>npm i react</pre>
+
+<h3>Install development dependency</h3>
+
+<pre>npm install -D eslint</pre>
+
+<p>or:</p>
+
+<pre>npm install --save-dev eslint</pre>
+
+<h3>Remove package</h3>
+
+<pre>npm uninstall react</pre>
+
+<h3>Install everything from package.json</h3>
+
+<pre>npm install</pre>
+
+<div class="important">
+<strong>Important:</strong> <code>npm install</code> does not mean "install Node.js". It installs the project's packages.
+</div>
+
+</section>
+
+
+<!-- NPX -->
+
+<section id="npx">
+<h2>3. npx</h2>
+
+<p><strong>npx</strong> is commonly used to execute package binaries.</p>
+
+<p>Example:</p>
+
+<pre>npx create-vite@latest</pre>
+
+<p>Another example:</p>
+
+<pre>npx tsc --init</pre>
+
+<p>It can use a locally installed package binary, or obtain a package when necessary.</p>
+
+<table>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+<tr>
+<td>npm install</td>
+<td>Install packages</td>
+</tr>
+<tr>
+<td>npm run</td>
+<td>Run package.json scripts</td>
+</tr>
+<tr>
+<td>npx</td>
+<td>Execute package binaries</td>
+</tr>
+</table>
+
+<div class="tip">
+Think: <strong>npm installs, npx executes.</strong>
+</div>
+
+</section>
+
+
+<!-- PACKAGE -->
+
+<section id="package">
+<h2>4. package.json & package-lock.json</h2>
+
+<h3>package.json</h3>
+
+<p>This is the main configuration file of a Node/React project.</p>
+
+<pre>{
+  "name": "my-app",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "^19.0.0"
+  }
+}</pre>
+
+<p>It contains information such as:</p>
+
+<ul>
+<li>Project name</li>
+<li>Version</li>
+<li>Scripts</li>
+<li>Dependencies</li>
+<li>Development dependencies</li>
+</ul>
+
+<h3>package-lock.json</h3>
+
+<p>The lock file records the resolved dependency versions and dependency tree so installs can be reproduced more consistently.</p>
+
+<div class="important">
+<strong>package.json:</strong> What the project declares it needs.
+<br>
+<strong>package-lock.json:</strong> The resolved dependency tree npm recorded.
+</div>
+
+</section>
+
+
+<!-- DEPENDENCIES -->
+
+<section id="dependencies">
+<h2>5. dependencies vs devDependencies</h2>
+
+<h3>dependencies</h3>
+
+<p>Packages required by the application at runtime or by the deployed application environment.</p>
+
+<pre>npm install react</pre>
+
+<p>Goes into:</p>
+
+<pre>"dependencies": {
+    "react": "..."
+}</pre>
+
+<h3>devDependencies</h3>
+
+<p>Packages primarily used during development/building/testing.</p>
+
+<pre>npm install -D eslint</pre>
+
+<p>Goes into:</p>
+
+<pre>"devDependencies": {
+    "eslint": "..."
+}</pre>
+
+<table>
+<tr>
+<th>dependencies</th>
+<th>devDependencies</th>
+</tr>
+<tr>
+<td>Runtime/application packages</td>
+<td>Development/tooling packages</td>
+</tr>
+<tr>
+<td>React</td>
+<td>ESLint</td>
+</tr>
+<tr>
+<td>Some runtime libraries</td>
+<td>Prettier</td>
+</tr>
+<tr>
+<td>Backend libraries</td>
+<td>Jest / testing tools</td>
+</tr>
+</table>
+
+<div class="warning">
+Do not decide purely from the package name. Whether a package belongs in dependencies or devDependencies depends on how the project uses it and how the deployment/build environment installs packages.
+</div>
+
+</section>
+
+
+<!-- SEMVER -->
+
+<section id="semver">
+<h2>6. Semantic Versioning</h2>
+
+<p>A version commonly looks like:</p>
+
+<pre>1.2.3</pre>
+
+<p>Meaning:</p>
+
+<div class="flow">
+MAJOR . MINOR . PATCH
+</div>
+
+<table>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+<tr>
+<td>Major</td>
+<td>Breaking changes</td>
+</tr>
+<tr>
+<td>Minor</td>
+<td>Backward-compatible features</td>
+</tr>
+<tr>
+<td>Patch</td>
+<td>Bug fixes</td>
+</tr>
+</table>
+
+<h3>^</h3>
+
+<pre>"react": "^19.0.0"</pre>
+
+<p>For normal 1.x-or-later versions, <code>^</code> allows compatible minor/patch updates below the next major version.</p>
+
+<h3>~</h3>
+
+<pre>"package": "~1.2.3"</pre>
+
+<p>Generally allows patch updates below 1.3.0.</p>
+
+<div class="important">
+<strong>Important:</strong> package-lock.json can cause npm to install the exact resolved version recorded there, even when package.json contains a range.
+</div>
+
+</section>
+
+
+<!-- SCRIPTS -->
+
+<section id="scripts">
+<h2>7. npm Scripts</h2>
+
+<p>Scripts are defined inside <code>package.json</code>.</p>
+
+<pre>"scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint ."
+}</pre>
+
+<h3>Run script</h3>
+
+<pre>npm run dev</pre>
+
+<h3>Special scripts</h3>
+
+<p>You can run:</p>
+
+<pre>npm start
+npm test</pre>
+
+<p>without <code>npm run</code> because npm treats some lifecycle names specially.</p>
+
+<h3>npm run build</h3>
+
+<p>Runs whatever command the project defines under the <code>build</code> script.</p>
+
+<p>For example:</p>
+
+<pre>"build": "next build"</pre>
+
+<p>means:</p>
+
+<pre>npm run build</pre>
+
+<p>executes:</p>
+
+<pre>next build</pre>
+
+<h3>prebuild</h3>
+
+<pre>"prebuild": "node scripts/generate.js",
+"build": "next build"</pre>
+
+<p>When you run:</p>
+
+<pre>npm run build</pre>
+
+<p>npm automatically runs:</p>
+
+<pre>prebuild → build</pre>
+
+<div class="tip">
+<strong>Remember:</strong> <code>prebuild</code> is a lifecycle hook that runs before the <code>build</code> script.
+</div>
+
+</section>
+
+
+<!-- SHELL -->
+
+<section id="shell">
+<h2>8. Shell Operators</h2>
+
+<h3>&& — AND</h3>
+
+<pre>npm install && npm run build</pre>
+
+<p>Means:</p>
+
+<div class="flow">
+Run command 2 only if command 1 succeeds.
+</div>
+
+<h3>&gt; — Redirect output</h3>
+
+<pre>npm run build > build.log</pre>
+
+<p>Writes standard output to a file.</p>
+
+<h3>| — Pipe</h3>
+
+<pre>node -p "process.version" | findstr 24</pre>
+
+<p>The output of the first command becomes input to the second command.</p>
+
+<table>
+<tr>
+<th>Operator</th>
+<th>Meaning</th>
+</tr>
+<tr>
+<td>&&</td>
+<td>Run next command if previous succeeds</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>Redirect output</td>
+</tr>
+<tr>
+<td>|</td>
+<td>Pipe output into another command</td>
+</tr>
+</table>
+
+</section>
+
+
+<!-- JSON -->
+
+<section id="json">
+<h2>9. JSON.stringify() & JSON.parse()</h2>
+
+<h3>JSON.stringify()</h3>
+
+<p>Converts a JavaScript value into a JSON string.</p>
+
+<pre>const user = {
+    name: "Munna",
+    age: 30
+};
+
+const json = JSON.stringify(user);
+
+console.log(json);</pre>
+
+<p>Result:</p>
+
+<pre>{"name":"Munna","age":30}</pre>
+
+<h3>JSON.parse()</h3>
+
+<p>Converts a JSON string into a JavaScript value.</p>
+
+<pre>const json = '{"name":"Munna","age":30}';
+
+const user = JSON.parse(json);
+
+console.log(user.name);</pre>
+
+<div class="flow">
+JavaScript Object
+<br>
+↓ JSON.stringify()
+<br>
+JSON String
+<br>
+↓ JSON.parse()
+<br>
+JavaScript Object
+</div>
+
+<div class="tip">
+<strong>Easy memory trick:</strong><br>
+stringify = object → string<br>
+parse = string → object
+</div>
+
+</section>
+
+
+<!-- ESLINT -->
+
+<section id="eslint">
+<h2>10. ESLint & Prettier</h2>
+
+<h3>ESLint</h3>
+
+<p>ESLint analyzes code and identifies problems, suspicious patterns, and style-rule violations.</p>
+
+<pre>npm run lint</pre>
+
+<p>Example problem:</p>
+
+<pre>const unusedVariable = 10;</pre>
+
+<p>Depending on configuration, ESLint may warn about or report the unused variable.</p>
+
+<h3>Prettier</h3>
+
+<p>Prettier is primarily a code formatter.</p>
+
+<p>Example:</p>
+
+<pre>const user={name:"Munna",age:30}</pre>
+
+<p>Prettier can format it as:</p>
+
+<pre>const user = {
+  name: "Munna",
+  age: 30,
+};</pre>
+
+<table>
+<tr>
+<th>Tool</th>
+<th>Main purpose</th>
+</tr>
+<tr>
+<td>ESLint</td>
+<td>Find code-quality/rule problems</td>
+</tr>
+<tr>
+<td>Prettier</td>
+<td>Format code consistently</td>
+</tr>
+</table>
+
+</section>
+
+
+<!-- JEST -->
+
+<section id="jest">
+<h2>11. Jest</h2>
+
+<p><strong>Jest</strong> is a JavaScript testing framework.</p>
+
+<pre>test("adds numbers", () => {
+    expect(2 + 3).toBe(5);
+});</pre>
+
+<p>The test checks whether:</p>
+
+<pre>2 + 3 === 5</pre>
+
+<h3>Why testing?</h3>
+
+<ul>
+<li>Find bugs early.</li>
+<li>Prevent regressions.</li>
+<li>Verify functions.</li>
+<li>Increase confidence when changing code.</li>
+</ul>
+
+</section>
+
+
+<!-- TYPESCRIPT -->
+
+<section id="typescript">
+<h2>12. TypeScript Basics</h2>
+
+<p>TypeScript is JavaScript with a static type system.</p>
+
+<h3>Variable type</h3>
+
+<pre>let name: string = "Munna";
+
+let age: number = 30;
+
+let isAdmin: boolean = false;</pre>
+
+<h3>Interface</h3>
+
+<pre>interface User {
+    name: string;
+    age: number;
+    email: string;
+}</pre>
+
+<p>Use it:</p>
+
+<pre>const user: User = {
+    name: "Munna",
+    age: 30,
+    email: "munna@example.com"
+};</pre>
+
+<h3>Function return type</h3>
+
+<pre>function add(a: number, b: number): number {
+    return a + b;
+}</pre>
+
+<h3>Promise return type</h3>
+
+<pre>async function getUsers(): Promise<User[]> {
+    // ...
+}</pre>
+
+<p>This means the function eventually resolves to an array of User objects.</p>
+
+<div class="important">
+<strong>Important:</strong> TypeScript types are mainly compile-time information. They do not automatically validate values at runtime.
+</div>
+
+</section>
+
+
+<!-- JAVASCRIPT -->
+
+<section id="javascript">
+<h2>13. JavaScript Basics</h2>
+
+<h3>const</h3>
+
+<pre>const name = "Munna";</pre>
+
+<p>The variable binding cannot be reassigned.</p>
+
+<h3>let</h3>
+
+<pre>let count = 0;
+
+count = 1;</pre>
+
+<p>The variable can be reassigned.</p>
+
+<h3>Arrow function</h3>
+
+<pre>const add = (a, b) => {
+    return a + b;
+};</pre>
+
+<h3>Implicit return</h3>
+
+<pre>const add = (a, b) => a + b;</pre>
+
+<p>These are equivalent:</p>
+
+<pre>const double = x => x * 2;</pre>
+
+<pre>const double = x => {
+    return x * 2;
+};</pre>
+
+<h3>map()</h3>
+
+<pre>const numbers = [1, 2, 3];
+
+const result = numbers.map(number => number * 2);</pre>
+
+<p>Result:</p>
+
+<pre>[2, 4, 6]</pre>
+
+<div class="warning">
+If you use curly braces in an arrow function, you need an explicit <code>return</code> if you want to return a value.
+</div>
+
+<pre>
+// WRONG for rendering a value
+numbers.map(number => {
+    number * 2;
+});
+
+// CORRECT
+numbers.map(number => {
+    return number * 2;
+});
+
+// Also CORRECT
+numbers.map(number => number * 2);</pre>
+
+</section>
+
+
+<!-- REACT -->
+
+<section id="react">
+<h2>14. React Basics</h2>
+
+<p>React is a JavaScript library for building user interfaces.</p>
+
+<h3>Component</h3>
+
+<pre>function Welcome() {
+    return <h1>Hello</h1>;
+}</pre>
+
+<p>A React component is generally a function that returns UI.</p>
+
+<h3>JSX</h3>
+
+<pre>const element = <h1>Hello Munna</h1>;</pre>
+
+<p>JSX lets you write HTML-like syntax inside JavaScript/TypeScript.</p>
+
+<h3>Props</h3>
+
+<pre>function User({ name }) {
+    return <h1>Hello {name}</h1>;
+}</pre>
+
+<p>Use:</p>
+
+<pre>&lt;User name="Munna" /&gt;</pre>
+
+<p>Props are inputs passed from a parent component to a child component.</p>
+
+</section>
+
+
+<!-- STATE -->
+
+<section id="state">
+<h2>15. State & useState</h2>
+
+<p>State represents data that can change during a component's lifetime and whose changes can cause a re-render.</p>
+
+<pre>const [count, setCount] = useState(0);</pre>
+
+<p>There are two variables:</p>
+
+<table>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+<tr>
+<td>count</td>
+<td>Current state value</td>
+</tr>
+<tr>
+<td>setCount</td>
+<td>Function used to update state</td>
+</tr>
+<tr>
+<td>0</td>
+<td>Initial value</td>
+</tr>
+</table>
+
+<h3>Example</h3>
+
+<pre>const [count, setCount] = useState(0);
+
+<button onClick={() => setCount(count + 1)}>
+    Count: {count}
+</button></pre>
+
+<h3>Why not directly modify state?</h3>
+
+<pre>// Don't do this
+count = count + 1;</pre>
+
+<p>Instead:</p>
+
+<pre>setCount(count + 1);</pre>
+
+<div class="tip">
+Calling the state setter tells React that state changed and allows React to schedule a re-render.
+</div>
+
+</section>
+
+
+<!-- EFFECT -->
+
+<section id="effect">
+<h2>16. useEffect</h2>
+
+<p><code>useEffect</code> is used for side effects in client components.</p>
+
+<p>Examples of side effects:</p>
+
+<ul>
+<li>Fetching data.</li>
+<li>Reading localStorage.</li>
+<li>Updating document title.</li>
+<li>Subscribing to events.</li>
+<li>Timers.</li>
+</ul>
+
+<pre>useEffect(() => {
+    console.log("Component mounted");
+}, []);</pre>
+
+<p>The empty dependency array means the effect does not depend on changing values and normally runs after the initial render. In React development Strict Mode, effects may be intentionally re-run to help detect issues.</p>
+
+<h3>Dependencies</h3>
+
+<pre>useEffect(() => {
+    console.log(count);
+}, [count]);</pre>
+
+<p>This effect runs when <code>count</code> changes.</p>
+
+</section>
+
+
+<!-- CONTEXT -->
+
+<section id="context">
+<h2>17. Context API</h2>
+
+<p>Context allows data to be made available to components deeper in the component tree without passing props through every level.</p>
+
+<h3>Create context</h3>
+
+<pre>interface ThemeContextType {
+    theme: "light" | "dark";
+    toggleTheme: () => void;
+}
+
+const ThemeContext =
+    createContext&lt;ThemeContextType | undefined&gt;(undefined);</pre>
+
+<h3>Provider</h3>
+
+<pre>&lt;ThemeContext.Provider
+    value={{ theme, toggleTheme }}
+&gt;
+    {children}
+&lt;/ThemeContext.Provider&gt;</pre>
+
+<p>The Provider makes <code>theme</code> and <code>toggleTheme</code> available to descendants.</p>
+
+<h3>useContext</h3>
+
+<pre>const context = useContext(ThemeContext);</pre>
+
+<p>If no Provider is above the component and the default is undefined, context will be undefined.</p>
+
+<h3>Custom hook</h3>
+
+<pre>export function useTheme() {
+    const context = useContext(ThemeContext);
+
+    if (!context) {
+        throw new Error(
+            "useTheme must be used inside ThemeProvider"
+        );
+    }
+
+    return context;
+}</pre>
+
+<div class="tip">
+<strong>Why throw an error?</strong> It gives a clear developer error instead of allowing the application to fail later because context is undefined.
+</div>
+
+</section>
+
+
+<!-- ASYNC -->
+
+<section id="async">
+<h2>18. Async/Await & Promises</h2>
+
+<p>An asynchronous operation may finish later.</p>
+
+<h3>Promise</h3>
+
+<p>A Promise represents a future result.</p>
+
+<h3>async</h3>
+
+<pre>async function getData() {
+    return "Hello";
+}</pre>
+
+<p>An async function always returns a Promise.</p>
+
+<h3>await</h3>
+
+<pre>const result = await getData();</pre>
+
+<p><code>await</code> waits for the Promise result inside an async function.</p>
+
+<h3>Explicit TypeScript type</h3>
+
+<pre>async function getUsers(): Promise&lt;User[]&gt; {
+    const users = await getData();
+    return users;
+}</pre>
+
+<p>Meaning:</p>
+
+<div class="flow">
+getUsers()
+<br>
+↓
+Promise
+<br>
+↓
+User[]
+</div>
+
+<h3>try/catch</h3>
+
+<pre>try {
+    const data = await getData();
+} catch (error) {
+    console.error(error);
+}</pre>
+
+</section>
+
+
+<!-- FETCH -->
+
+<section id="fetch">
+<h2>19. Fetch & APIs</h2>
+
+<h3>Basic fetch</h3>
+
+<pre>const res = await fetch("/api/users");</pre>
+
+<p><code>res</code> is a <strong>Response object</strong>.</p>
+
+<p>It is not automatically the JSON data.</p>
+
+<h3>Read JSON</h3>
+
+<pre>const data = await res.json();</pre>
+
+<p>Now:</p>
+
+<div class="flow">
+fetch()
+<br>
+↓
+Response object
+<br>
+↓ res.json()
+<br>
+JavaScript data
+</div>
+
+<h3>Example</h3>
+
+<pre>const res = await fetch("/api/users");
+
+if (!res.ok) {
+    throw new Error("Request failed");
+}
+
+const users = await res.json();</pre>
+
+<h3>POST request</h3>
+
+<pre>const res = await fetch("/api/users", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        name: "Munna",
+        age: 30
+    })
+});</pre>
+
+<div class="important">
+<strong>Remember:</strong> <code>JSON.stringify()</code> is commonly used to convert JavaScript data into the JSON string sent in an HTTP request body.
+</div>
+
+</section>
+
+
+<!-- HTTP -->
+
+<section id="http">
+<h2>20. HTTP Basics</h2>
+
+<p>HTTP is the protocol commonly used for communication between clients and servers.</p>
+
+<table>
+<tr>
+<th>Method</th>
+<th>Common purpose</th>
+</tr>
+<tr>
+<td>GET</td>
+<td>Retrieve data</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>Create/send data</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>Replace/update a resource</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>Partially update a resource</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Delete a resource</td>
+</tr>
+</table>
+
+<h3>Status codes</h3>
+
+<table>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Created</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthenticated / authentication required</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+</tr>
+</table>
+
+</section>
+
+
+<!-- NEXT -->
+
+<section id="next">
+<h2>21. Next.js Basics</h2>
+
+<p>Next.js is a React framework.</p>
+
+<p>It provides features such as:</p>
+
+<ul>
+<li>Routing</li>
+<li>Server Components</li>
+<li>Client Components</li>
+<li>Server-side functionality</li>
+<li>API route handlers</li>
+<li>Build optimization</li>
+<li>Image optimization</li>
+<li>Deployment support</li>
+</ul>
+
+<h3>App Router</h3>
+
+<p>A common structure:</p>
+
+<pre>app/
+├── page.tsx
+├── layout.tsx
+├── about/
+│   └── page.tsx
+└── dashboard/
+    └── page.tsx</pre>
+
+<p>Routes are based on folders/files.</p>
+
+<div class="flow">
+app/about/page.tsx
+<br>
+↓
+/about
+</div>
+
+<h3>layout.tsx</h3>
+
+<p>Defines shared UI/layout around pages.</p>
+
+<h3>page.tsx</h3>
+
+<p>Defines the UI for a route.</p>
+
+</section>
+
+
+<!-- SERVER CLIENT -->
+
+<section id="serverclient">
+<h2>22. Server Components vs Client Components</h2>
+
+<h3>Server Components</h3>
+
+<p>In the Next.js App Router, components are Server Components by default.</p>
+
+<p>They are useful for:</p>
+
+<ul>
+<li>Server-side data fetching.</li>
+<li>Accessing server-side resources.</li>
+<li>Keeping server-only logic on the server.</li>
+<li>Reducing client-side JavaScript.</li>
+</ul>
+
+<h3>Client Components</h3>
+
+<p>Add:</p>
+
+<pre>"use client";</pre>
+
+<p>when the module needs client-side capabilities such as:</p>
+
+<ul>
+<li>useState</li>
+<li>useEffect</li>
+<li>event handlers</li>
+<li>browser APIs</li>
+<li>interactive UI</li>
+</ul>
+
+<h3>"use server"</h3>
+
+<p><code>"use server"</code> is associated with Server Actions/server-side functions. It is not simply the opposite of <code>"use client"</code> and is not a general marker saying "this whole component is a Server Component."</p>
+
+<div class="important">
+<strong>Easy memory:</strong><br>
+Default Next.js App Router component → Server Component<br>
+Need browser interaction/hooks → "use client"<br>
+Server Action/function → "use server"
+</div>
+
+</section>
+
+
+<!-- SUPABASE -->
+
+<section id="supabase">
+<h2>23. Supabase Basics</h2>
+
+<p>Supabase provides backend services including a PostgreSQL database and authentication.</p>
+
+<h3>Query example</h3>
+
+<pre>const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();</pre>
+
+<h3>data</h3>
+
+<p>Contains the returned database record when successful.</p>
+
+<h3>error</h3>
+
+<p>Contains an error if the query failed.</p>
+
+<h3>single()</h3>
+
+<p><code>single()</code> expects exactly one row.</p>
+
+<p>If zero or multiple rows are returned, it results in an error.</p>
+
+<h3>maybeSingle()</h3>
+
+<p><code>maybeSingle()</code> allows zero rows and returns <code>null</code> for that case, but still expects no more than one row.</p>
+
+<h3>Example</h3>
+
+<pre>const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+if (error) {
+    throw error;
+}
+
+return data;</pre>
+
+<div class="tip">
+If your function is supposed to return the profile object, return <code>data</code>, not the entire <code>{ data, error }</code> response object.
+</div>
+
+</section>
+
+
+<!-- ENV -->
+
+<section id="env">
+<h2>24. Environment Variables</h2>
+
+<p>Environment variables store configuration outside source code.</p>
+
+<p>Example:</p>
+
+<pre>NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...</pre>
+
+<h3>Access in Next.js</h3>
+
+<pre>process.env.NEXT_PUBLIC_SUPABASE_URL</pre>
+
+<h3>Non-null assertion</h3>
+
+<pre>process.env.NEXT_PUBLIC_SUPABASE_URL!</pre>
+
+<p>The <code>!</code> tells TypeScript:</p>
+
+<div class="flow">
+"Assume this value is not undefined."
+</div>
+
+<p>It does not perform runtime validation.</p>
+
+<h3>Safer validation</h3>
+
+<pre>const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+if (!url) {
+    throw new Error("Missing Supabase URL");
+}</pre>
+
+<div class="warning">
+<strong>Important:</strong> In Next.js, environment variables prefixed with <code>NEXT_PUBLIC_</code> are intended to be available to client-side code. Never put secrets in public environment variables.
+</div>
+
+</section>
+
+
+<!-- GIT -->
+
+<section id="git">
+<h2>25. Git Basics</h2>
+
+<p>Git is a version control system.</p>
+
+<h3>Initialize repository</h3>
+
+<pre>git init</pre>
+
+<h3>Check status</h3>
+
+<pre>git status</pre>
+
+<h3>Add files</h3>
+
+<pre>git add .</pre>
+
+<h3>Commit</h3>
+
+<pre>git commit -m "Initial commit"</pre>
+
+<h3>Push</h3>
+
+<pre>git push</pre>
+
+<h3>Pull</h3>
+
+<pre>git pull</pre>
+
+<h3>Clone</h3>
+
+<pre>git clone &lt;repository-url&gt;</pre>
+
+<h3>Branches</h3>
+
+<pre>git branch
+
+git switch -c feature/login</pre>
+
+<div class="flow">
+Working Directory
+<br>
+↓ git add
+<br>
+Staging Area
+<br>
+↓ git commit
+<br>
+Repository
+<br>
+↓ git push
+<br>
+Remote Repository
+</div>
+
+</section>
+
+
+<!-- BUILD -->
+
+<section id="build">
+<h2>26. Build Process</h2>
+
+<p>During development, tools make it convenient to write and test code.</p>
+
+<p>For production, the project is usually built/optimized.</p>
+
+<div class="flow">
+Source Code
+<br>
+↓
+TypeScript / JSX
+<br>
+↓
+Compiler / Bundler
+<br>
+↓
+Optimized Output
+<br>
+↓
+Deployment
+</div>
+
+<h3>Typical Next.js commands</h3>
+
+<pre>npm run dev</pre>
+
+<p>Starts the development server.</p>
+
+<pre>npm run build</pre>
+
+<p>Creates the production build according to the Next.js project configuration.</p>
+
+<pre>npm start</pre>
+
+<p>Runs the project's configured start command, commonly the production server after a successful build.</p>
+
+<div class="important">
+The exact behavior of <code>npm run build</code> and <code>npm start</code> depends on the scripts defined in <code>package.json</code>.
+</div>
+
+</section>
+
+
+<!-- REACT-SCRIPTS -->
+
+<section>
+<h2>27. react-scripts</h2>
+
+<p><code>react-scripts</code> is associated with Create React App (CRA).</p>
+
+<p>It provided common scripts/tooling such as:</p>
+
+<pre>react-scripts start
+react-scripts build
+react-scripts test</pre>
+
+<p>It is not a requirement for React itself, and Next.js uses its own build tooling rather than <code>react-scripts</code>.</p>
+
+</section>
+
+
+<!-- REACT DOTENV -->
+
+<section>
+<h2>28. react-dotenv</h2>
+
+<p><code>react-dotenv</code> is a third-party package used in some React setups for environment-variable handling.</p>
+
+<div class="warning">
+Do not confuse third-party packages with built-in React features. Environment-variable handling depends on the build framework/toolchain you are using.
+</div>
+
+</section>
+
+
+<!-- NODE P -->
+
+<section>
+<h2>29. node -p</h2>
+
+<p><code>node -p</code> evaluates a JavaScript expression and prints the result.</p>
+
+<pre>node -p "process.version"</pre>
+
+<p>Example output:</p>
+
+<pre>v24.18.0</pre>
+
+<p>You can also inspect:</p>
+
+<pre>node -p "process.platform"</pre>
+
+</section>
+
+
+<!-- REQUIRE -->
+
+<section>
+<h2>30. require()</h2>
+
+<p><code>require()</code> is commonly used to load modules in the CommonJS module system.</p>
+
+<pre>const fs = require("fs");</pre>
+
+<p>In modern JavaScript/TypeScript projects using ES Modules, you will commonly see:</p>
+
+<pre>import fs from "fs";</pre>
+
+<div class="tip">
+<strong>CommonJS:</strong> require()<br>
+<strong>ES Modules:</strong> import/export
+</div>
+
+</section>
+
+
+<!-- API FLOW -->
+
+<section>
+<h2>31. Complete API Request Flow</h2>
+
+<p>Understand this flow very well because it appears constantly in frontend development.</p>
+
+<div class="flow">
+React Component
+<br>
+↓
+fetch()
+<br>
+↓
+HTTP Request
+<br>
+↓
+Backend API
+<br>
+↓
+Database
+<br>
+↓
+Backend Response
+<br>
+↓
+Response object
+<br>
+↓
+response.json()
+<br>
+↓
+JavaScript Object
+<br>
+↓
+React State
+<br>
+↓
+UI Re-render
+</div>
+
+<h3>Example</h3>
+
+<pre>async function getUsers() {
+
+    const response = await fetch("/api/users");
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch users");
+    }
+
+    const users = await response.json();
+
+    return users;
+}</pre>
+
+</section>
+
+
+<!-- FETCH CACHE -->
+
+<section>
+<h2>32. fetch() and cache: "no-store"</h2>
+
+<pre>const response = await fetch("/api/users", {
+    cache: "no-store"
+});</pre>
+
+<p>In Next.js, this option tells the framework not to use cached data for that fetch and to request fresh data rather than serving a cached fetch result.</p>
+
+<div class="important">
+Caching behavior can depend on the Next.js version and the surrounding rendering/data-fetching setup, so always check the framework's current rules when debugging caching.
+</div>
+
+</section>
+
+
+<!-- LOCAL STORAGE -->
+
+<section>
+<h2>33. localStorage</h2>
+
+<p><code>localStorage</code> allows browser-side key/value storage.</p>
+
+<h3>Save</h3>
+
+<pre>localStorage.setItem("theme", "dark");</pre>
+
+<h3>Read</h3>
+
+<pre>const theme = localStorage.getItem("theme");</pre>
+
+<p>The return type is:</p>
+
+<pre>string | null</pre>
+
+<h3>Remove</h3>
+
+<pre>localStorage.removeItem("theme");</pre>
+
+<h3>JSON storage</h3>
+
+<pre>localStorage.setItem(
+    "user",
+    JSON.stringify(user)
+);</pre>
+
+<p>Read it back:</p>
+
+<pre>const user = JSON.parse(
+    localStorage.getItem("user")
+);</pre>
+
+</section>
+
+
+<!-- TS ASSERTION -->
+
+<section>
+<h2>34. TypeScript Type Assertion</h2>
+
+<p>Example:</p>
+
+<pre>const savedTheme =
+    localStorage.getItem("theme") as Theme | null;</pre>
+
+<p><code>as</code> is a type assertion.</p>
+
+<p>You are telling TypeScript how you want the value treated at compile time.</p>
+
+<div class="warning">
+A type assertion does NOT validate the value at runtime.
+</div>
+
+<p>For example:</p>
+
+<pre>const value = "something" as Theme;</pre>
+
+<p>TypeScript may accept the assertion, but the runtime value is still just a string.</p>
+
+</section>
+
+
+<!-- COOKIES -->
+
+<section>
+<h2>35. Cookies & Supabase SSR</h2>
+
+<p>In a server-side context, cookies can be used to carry session/authentication information.</p>
+
+<p>A Next.js example may look like:</p>
+
+<pre>const cookieStore = await cookies();</pre>
+
+<p>When processing cookies:</p>
+
+<pre>cookies.forEach(
+    ({ name, value, options }) => {
+        cookieStore.set(
+            name,
+            value,
+            options
+        );
+    }
+);</pre>
+
+<p>This:</p>
+
+<pre>{ name, value, options }</pre>
+
+<p>is object destructuring.</p>
+
+<p>It is equivalent to:</p>
+
+<pre>cookie => {
+    const name = cookie.name;
+    const value = cookie.value;
+    const options = cookie.options;
+}</pre>
+
+</section>
+
+
+<!-- SWR -->
+
+<section>
+<h2>36. SWR & mutate()</h2>
+
+<p>SWR is a React data-fetching library.</p>
+
+<p>Example:</p>
+
+<pre>const {
+    data: session,
+    isLoading: loading,
+    mutate
+} = useSWRHandler("/api/session", fetcher);</pre>
+
+<p>The function named <code>mutate</code> is coming from the hook's return value.</p>
+
+<p>If the custom hook wraps SWR, it may ultimately come from SWR's own API.</p>
+
+<h3>What does mutate() do?</h3>
+
+<p>It can be used to update/revalidate the cached data associated with the current key.</p>
+
+<pre>mutate();</pre>
+
+<p>Often this means:</p>
+
+<div class="flow">
+Existing cached data
+<br>
+↓
+Revalidate / update
+<br>
+↓
+Fresh data
+<br>
+↓
+Component updates
+</div>
+
+</section>
+
+
+<!-- CALLBACK -->
+
+<section>
+<h2>37. Callback Functions</h2>
+
+<p>A callback is a function passed to another function.</p>
+
+<pre>function greet(name, callback) {
+    console.log("Hello " + name);
+    callback();
+}
+
+greet("Munna", () => {
+    console.log("Done");
+});</pre>
+
+<h3>forEach</h3>
+
+<pre>items.forEach(item => {
+    console.log(item);
+});</pre>
+
+<p>The function passed to <code>forEach</code> is a callback.</p>
+
+<h3>map</h3>
+
+<pre>items.map(item => item.name);</pre>
+
+<p>The callback produces a value that becomes an element in the new array.</p>
+
+</section>
+
+
+<!-- PROPS -->
+
+<section>
+<h2>38. Props & TypeScript</h2>
+
+<p>Suppose a component expects:</p>
+
+<pre>interface NavbarProps {
+    full_name: string | null;
+}
+
+function Navbar({ full_name }: NavbarProps) {
+    return <div>{full_name}</div>;
+}</pre>
+
+<p>Then:</p>
+
+<pre>&lt;Navbar full_name={profile.full_name} /&gt;</pre>
+
+<p>is correct.</p>
+
+<p>But:</p>
+
+<pre>&lt;Navbar userName={profile.full_name} /&gt;</pre>
+
+<p>is incorrect if the component expects <code>full_name</code>.</p>
+
+<div class="important">
+<strong>Prop names must match the component's expected props.</strong>
+</div>
+
+</section>
+
+
+<!-- DATABASE -->
+
+<section>
+<h2>39. Basic SQL Concepts</h2>
+
+<h3>Table</h3>
+
+<p>A table stores rows and columns.</p>
+
+<h3>Primary Key</h3>
+
+<p>Uniquely identifies a row.</p>
+
+<pre>PRIMARY KEY (id)</pre>
+
+<h3>Foreign Key</h3>
+
+<p>Creates a relationship to another table.</p>
+
+<pre>id UUID REFERENCES auth.users(id)</pre>
+
+<h3>ON DELETE CASCADE</h3>
+
+<pre>ON DELETE CASCADE</pre>
+
+<p>Means related child rows can automatically be deleted when the referenced parent row is deleted.</p>
+
+<h3>RLS</h3>
+
+<p>Row Level Security controls which rows users can access based on database policies.</p>
+
+<pre>ALTER TABLE profiles
+ENABLE ROW LEVEL SECURITY;</pre>
+
+</section>
+
+
+<!-- FULL PROJECT -->
+
+<section>
+<h2>40. How Everything Connects</h2>
+
+<div class="flow">
+
+User opens website
+<br>
+↓
+Next.js
+<br>
+↓
+React Component
+<br>
+↓
+Props / State / Context
+<br>
+↓
+API Request
+<br>
+↓
+fetch()
+<br>
+↓
+Backend
+<br>
+↓
+Supabase / Database
+<br>
+↓
+JSON Response
+<br>
+↓
+React State
+<br>
+↓
+UI Re-render
+<br>
+↓
+Git
+<br>
+↓
+Build
+<br>
+↓
+Deployment
+
+</div>
+
+<p>This is the big picture you should understand rather than memorizing individual commands.</p>
+
+</section>
+
+
+<!-- INTERVIEW -->
+
+<section id="interview">
+<h2>41. Interview Quick Revision</h2>
+
+<div class="interview">
+<strong>Q: What is Node.js?</strong>
+<br>
+Node.js is a JavaScript runtime that allows JavaScript to run outside the browser.
+</div>
+
+<div class="interview">
+<strong>Q: What is npm?</strong>
+<br>
+npm is the Node package manager used to install/manage packages and run project scripts.
+</div>
+
+<div class="interview">
+<strong>Q: What is npx?</strong>
+<br>
+npx is used to execute package binaries, commonly using a local package binary or obtaining the package when necessary.
+</div>
+
+<div class="interview">
+<strong>Q: Difference between package.json and package-lock.json?</strong>
+<br>
+package.json declares project dependencies and scripts; package-lock.json records npm's resolved dependency tree and versions.
+</div>
+
+<div class="interview">
+<strong>Q: What is React?</strong>
+<br>
+React is a JavaScript library for building user interfaces using components.
+</div>
+
+<div class="interview">
+<strong>Q: What is JSX?</strong>
+<br>
+JSX is syntax that allows HTML-like UI markup to be written inside JavaScript/TypeScript.
+</div>
+
+<div class="interview">
+<strong>Q: What are props?</strong>
+<br>
+Props are inputs passed from a parent component to a child component.
+</div>
+
+<div class="interview">
+<strong>Q: What is state?</strong>
+<br>
+State is component data that can change and trigger a re-render when updated.
+</div>
+
+<div class="interview">
+<strong>Q: What is useState?</strong>
+<br>
+useState is a React Hook used to add state to a function component.
+</div>
+
+<div class="interview">
+<strong>Q: What is useEffect?</strong>
+<br>
+useEffect is a React Hook used to synchronize a component with external systems and perform side effects.
+</div>
+
+<div class="interview">
+<strong>Q: What is Context API?</strong>
+<br>
+Context allows data to be shared with descendant components without passing props through every intermediate component.
+</div>
+
+<div class="interview">
+<strong>Q: What does async mean?</strong>
+<br>
+An async function always returns a Promise.
+</div>
+
+<div class="interview">
+<strong>Q: What does await do?</strong>
+<br>
+await waits for a Promise to settle inside an async function and gives the fulfilled value when successful.
+</div>
+
+<div class="interview">
+<strong>Q: What does fetch() return?</strong>
+<br>
+fetch() returns a Promise that resolves to a Response object.
+</div>
+
+<div class="interview">
+<strong>Q: What does response.json() do?</strong>
+<br>
+It reads the response body and parses it as JSON.
+</div>
+
+<div class="interview">
+<strong>Q: What is JSON.stringify()?</strong>
+<br>
+It converts a JavaScript value into a JSON string.
+</div>
+
+<div class="interview">
+<strong>Q: What is JSON.parse()?</strong>
+<br>
+It converts a JSON string into a JavaScript value.
+</div>
+
+<div class="interview">
+<strong>Q: What is TypeScript?</strong>
+<br>
+TypeScript is a superset of JavaScript that adds static typing and other language features.
+</div>
+
+<div class="interview">
+<strong>Q: What is an interface?</strong>
+<br>
+An interface describes the expected shape of an object in TypeScript.
+</div>
+
+<div class="interview">
+<strong>Q: What does "use client" mean in Next.js?</strong>
+<br>
+It marks a module as a Client Component boundary so client-side features such as state, effects, event handlers, and browser APIs can be used.
+</div>
+
+<div class="interview">
+<strong>Q: Are Next.js components Server Components by default?</strong>
+<br>
+In the App Router, yes, components are Server Components by default.
+</div>
+
+<div class="interview">
+<strong>Q: What is Git?</strong>
+<br>
+Git is a distributed version control system used to track changes in source code.
+</div>
+
+<div class="interview">
+<strong>Q: What does git add do?</strong>
+<br>
+It stages changes for the next commit.
+</div>
+
+<div class="interview">
+<strong>Q: What does git commit do?</strong>
+<br>
+It records the staged changes in the local Git repository.
+</div>
+
+<div class="interview">
+<strong>Q: What does git push do?</strong>
+<br>
+It sends local commits to a remote repository.
+</div>
+
+</section>
+
+
+<!-- CHEAT SHEET -->
+
+<section>
+<h2>42. One-Page Command Cheat Sheet</h2>
+
+<table>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>node -v</code></td>
+<td>Check Node version</td>
+</tr>
+
+<tr>
+<td><code>npm -v</code></td>
+<td>Check npm version</td>
+</tr>
+
+<tr>
+<td><code>npm install</code></td>
+<td>Install dependencies</td>
+</tr>
+
+<tr>
+<td><code>npm install package</code></td>
+<td>Install package</td>
+</tr>
+
+<tr>
+<td><code>npm install -D package</code></td>
+<td>Install dev dependency</td>
+</tr>
+
+<tr>
+<td><code>npm uninstall package</code></td>
+<td>Remove package</td>
+</tr>
+
+<tr>
+<td><code>npm run dev</code></td>
+<td>Run dev script</td>
+</tr>
+
+<tr>
+<td><code>npm run build</code></td>
+<td>Run build script</td>
+</tr>
+
+<tr>
+<td><code>npm start</code></td>
+<td>Run start script</td>
+</tr>
+
+<tr>
+<td><code>npm run lint</code></td>
+<td>Run lint script</td>
+</tr>
+
+<tr>
+<td><code>npx command</code></td>
+<td>Execute package binary</td>
+</tr>
+
+<tr>
+<td><code>git status</code></td>
+<td>Show Git status</td>
+</tr>
+
+<tr>
+<td><code>git add .</code></td>
+<td>Stage changes</td>
+</tr>
+
+<tr>
+<td><code>git commit -m "message"</code></td>
+<td>Create commit</td>
+</tr>
+
+<tr>
+<td><code>git push</code></td>
+<td>Push commits</td>
+</tr>
+
+<tr>
+<td><code>git pull</code></td>
+<td>Pull remote changes</td>
+</tr>
+
+<tr>
+<td><code>git clone URL</code></td>
+<td>Clone repository</td>
+</tr>
+
+</table>
+
+</section>
+
+
+<!-- FINAL -->
+
+<section>
+<h2>43. The Most Important Mental Model</h2>
+
+<p>If you remember only one thing, remember this:</p>
+
+<div class="flow">
+
+<strong>Node.js</strong>
+→ Runs JavaScript outside browser
+
+<br><br>
+
+<strong>npm</strong>
+→ Manages packages and scripts
+
+<br><br>
+
+<strong>TypeScript</strong>
+→ Adds static types to JavaScript
+
+<br><br>
+
+<strong>React</strong>
+→ Builds UI using components
+
+<br><br>
+
+<strong>Next.js</strong>
+→ React framework with routing, server/client features, and build tooling
+
+<br><br>
+
+<strong>fetch()</strong>
+→ Communicates with APIs
+
+<br><br>
+
+<strong>JSON</strong>
+→ Common format for exchanging data
+
+<br><br>
+
+<strong>Supabase</strong>
+→ Database/auth/backend services
+
+<br><br>
+
+<strong>Git</strong>
+→ Tracks source-code changes
+
+<br><br>
+
+<strong>Build</strong>
+→ Converts/prepares the application for deployment
+
+</div>
+
+<div class="tip">
+<strong>Study order:</strong><br><br>
+JavaScript → TypeScript → React → Hooks → API/HTTP → Next.js → Supabase → Git → Build/Deployment
+</div>
+
+</section>
+
+</div>
+
+<footer>
+    React & Web Development Revision Notes
+    <br>
+    JavaScript • TypeScript • React • Next.js • npm • APIs • Git
+</footer>
+
+</body>
+</html>

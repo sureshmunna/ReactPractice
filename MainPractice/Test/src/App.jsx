@@ -25,6 +25,8 @@ import GlobalStateDemoWrapperjsx from './Components/GlobalStateDemojsx'
 import SplitContextDemoWrapper from './Components/SplitContextDemo'
 import CustomHooksDemo from './Components/CustomHooksDemo'
 import ZustandDemo from './Components/ZustandDemo'
+import ReactQueryDemo from './Components/ReactQueryDemo'
+import ConcurrentDemo from './Components/ConcurrentDemo'
 function App() {
   const [count, setCount] = useState(0)
   const [show,setShow] = useState(true)
@@ -58,7 +60,9 @@ function App() {
        <GlobalStateDemoWrapperjsx/> */}
        {/* <SplitContextDemoWrapper/> */}
        {/* <CustomHooksDemo/> */}
-       <ZustandDemo/>
+       {/* <ZustandDemo/> */}
+       {/* <ReactQueryDemo/> */}
+       <ConcurrentDemo/>
        
     </>
   )
